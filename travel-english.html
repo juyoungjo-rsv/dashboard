@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>여행 영어 한 달 챌린지</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -25,7 +24,7 @@
 }
 
 body {
-  font-family: 'Noto Sans KR', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Segoe UI', 'Malgun Gothic', sans-serif;
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
@@ -43,7 +42,7 @@ header {
   display: flex; align-items: center; gap: 5px;
   background: var(--surface); border: 1px solid var(--border);
   border-radius: 99px; padding: 6px 12px; font-size: 13px; font-weight: 700;
-  font-family: 'DM Mono', monospace;
+  font-family: ui-monospace, 'SF Mono', 'Menlo', 'Consolas', 'Roboto Mono', monospace;
 }
 .dday-banner {
   background: linear-gradient(135deg, var(--blue), var(--sky));
@@ -52,10 +51,10 @@ header {
   flex-wrap: wrap; gap: 10px;
 }
 .dday-banner .dday-main { font-size: 14px; font-weight: 700; }
-.dday-banner .dday-num { font-family: 'DM Mono', monospace; font-size: 20px; font-weight: 700; margin-left: 6px; }
+.dday-banner .dday-num { font-family: ui-monospace, 'SF Mono', 'Menlo', 'Consolas', 'Roboto Mono', monospace; font-size: 20px; font-weight: 700; margin-left: 6px; }
 .dday-banner input[type=date] {
   border: none; border-radius: 8px; padding: 6px 8px; font-size: 12px;
-  font-family: 'DM Mono', monospace; background: rgba(255,255,255,.9); color: var(--text);
+  font-family: ui-monospace, 'SF Mono', 'Menlo', 'Consolas', 'Roboto Mono', monospace; background: rgba(255,255,255,.9); color: var(--text);
 }
 
 /* ── Tabs ── */
@@ -65,7 +64,7 @@ header {
 }
 .tab-btn {
   background: none; border: none; cursor: pointer;
-  font-family: 'Noto Sans KR', sans-serif; font-size: 13px; font-weight: 600;
+  font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Segoe UI', 'Malgun Gothic', sans-serif; font-size: 13px; font-weight: 600;
   color: var(--muted); padding: 9px 14px 11px;
   border-bottom: 2px solid transparent; margin-bottom: -1px;
   transition: color .15s, border-color .15s;
@@ -103,7 +102,7 @@ header {
 }
 .day-nav button:hover { background: var(--border); }
 .day-nav button:disabled { opacity: .35; cursor: not-allowed; }
-.day-label { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); text-align: center; }
+.day-label { font-family: ui-monospace, 'SF Mono', 'Menlo', 'Consolas', 'Roboto Mono', monospace; font-size: 12px; color: var(--muted); text-align: center; }
 .day-label b { color: var(--text); font-size: 13px; }
 .recommend-badge {
   display: inline-block; background: #eaf3ff; color: var(--blue);
@@ -117,14 +116,14 @@ header {
   text-align: center; min-height: 150px;
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
 }
-.fc-en { font-size: 19px; font-weight: 700; line-height: 1.4; font-family: 'DM Mono', monospace; }
+.fc-en { font-size: 19px; font-weight: 700; line-height: 1.4; font-family: ui-monospace, 'SF Mono', 'Menlo', 'Consolas', 'Roboto Mono', monospace; }
 .fc-pron { font-size: 12px; color: var(--muted); }
 .fc-ko { font-size: 14px; color: var(--text); margin-top: 4px; }
 .fc-controls { display: flex; justify-content: center; gap: 8px; margin-top: 14px; }
 .fc-btn {
   border: 1px solid var(--border); background: var(--surface);
   border-radius: 99px; padding: 7px 14px; font-size: 12px; cursor: pointer;
-  font-family: 'Noto Sans KR', sans-serif; transition: background .15s, opacity .15s;
+  font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Segoe UI', 'Malgun Gothic', sans-serif; transition: background .15s, opacity .15s;
 }
 .fc-btn:hover { background: var(--tag); }
 .fc-btn:disabled { opacity: .45; cursor: not-allowed; }
@@ -134,7 +133,7 @@ header {
   width: 30px; height: 30px; cursor: pointer; font-size: 14px; color: var(--text);
 }
 .fc-nav button:disabled { opacity: .3; cursor: not-allowed; }
-.fc-counter { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); }
+.fc-counter { font-family: ui-monospace, 'SF Mono', 'Menlo', 'Consolas', 'Roboto Mono', monospace; font-size: 12px; color: var(--muted); }
 .fc-dots { display: flex; justify-content: center; gap: 5px; margin-top: 10px; }
 .fc-dot { width: 6px; height: 6px; border-radius: 99px; background: var(--border); transition: background .15s; }
 .fc-dot.active { background: var(--blue); }
@@ -145,7 +144,7 @@ header {
 .dlg-who {
   width: 24px; height: 24px; border-radius: 99px; flex-shrink: 0;
   display: flex; align-items: center; justify-content: center;
-  font-size: 11px; font-weight: 700; color: white; font-family: 'DM Mono', monospace;
+  font-size: 11px; font-weight: 700; color: white; font-family: ui-monospace, 'SF Mono', 'Menlo', 'Consolas', 'Roboto Mono', monospace;
 }
 .dlg-who.A { background: var(--blue); }
 .dlg-who.B { background: var(--orange); }
@@ -162,12 +161,12 @@ header {
 .quiz-progress .seg { flex: 1; height: 5px; border-radius: 99px; background: var(--border); }
 .quiz-progress .seg.done { background: var(--green); }
 .quiz-progress .seg.cur { background: var(--blue); }
-.quiz-q { font-size: 16px; font-weight: 700; font-family: 'DM Mono', monospace; margin-bottom: 4px; }
+.quiz-q { font-size: 16px; font-weight: 700; font-family: ui-monospace, 'SF Mono', 'Menlo', 'Consolas', 'Roboto Mono', monospace; margin-bottom: 4px; }
 .quiz-sub { font-size: 11px; color: var(--muted); margin-bottom: 14px; }
 .quiz-opt {
   display: block; width: 100%; text-align: left; border: 1.5px solid var(--border);
   background: var(--surface); border-radius: 10px; padding: 12px 14px; margin-bottom: 8px;
-  font-size: 13.5px; cursor: pointer; font-family: 'Noto Sans KR', sans-serif;
+  font-size: 13.5px; cursor: pointer; font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Segoe UI', 'Malgun Gothic', sans-serif;
   transition: border-color .15s, background .15s;
 }
 .quiz-opt:hover:not(:disabled) { border-color: var(--blue); }
@@ -175,18 +174,18 @@ header {
 .quiz-opt.wrong { border-color: var(--red); background: #fbecec; }
 .quiz-opt:disabled { cursor: not-allowed; }
 .quiz-result { text-align: center; padding: 10px 0; }
-.quiz-result .score { font-size: 34px; font-weight: 900; font-family: 'DM Mono', monospace; }
+.quiz-result .score { font-size: 34px; font-weight: 900; font-family: ui-monospace, 'SF Mono', 'Menlo', 'Consolas', 'Roboto Mono', monospace; }
 .quiz-result .msg { font-size: 13px; color: var(--muted); margin-top: 4px; margin-bottom: 16px; }
 .primary-btn {
   background: var(--blue); color: white; border: none; border-radius: 10px;
   padding: 12px 18px; font-size: 13.5px; font-weight: 700; cursor: pointer;
-  font-family: 'Noto Sans KR', sans-serif; transition: opacity .15s; width: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Segoe UI', 'Malgun Gothic', sans-serif; transition: opacity .15s; width: 100%;
 }
 .primary-btn:hover { opacity: .88; }
 .ghost-btn {
   background: none; color: var(--blue); border: 1px solid var(--blue); border-radius: 10px;
   padding: 11px 18px; font-size: 13px; font-weight: 700; cursor: pointer;
-  font-family: 'Noto Sans KR', sans-serif; width: 100%; margin-top: 8px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Segoe UI', 'Malgun Gothic', sans-serif; width: 100%; margin-top: 8px;
 }
 
 /* ── Progress ring ── */
@@ -195,12 +194,12 @@ header {
 .ring-wrap svg { transform: rotate(-90deg); }
 .ring-bg { fill: none; stroke: var(--border); stroke-width: 6; }
 .ring-fill { fill: none; stroke: var(--blue); stroke-width: 6; stroke-linecap: round; transition: stroke-dashoffset .7s cubic-bezier(.4,0,.2,1); }
-.ring-label { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: 'DM Mono', monospace; font-size: 15px; font-weight: 700; }
+.ring-label { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: ui-monospace, 'SF Mono', 'Menlo', 'Consolas', 'Roboto Mono', monospace; font-size: 15px; font-weight: 700; }
 .score-info .big { font-size: 17px; font-weight: 800; }
 .score-info .desc { font-size: 12px; color: var(--muted); margin-top: 3px; }
 .stat-row { display: flex; gap: 10px; margin-top: 16px; }
 .stat-box { flex: 1; background: var(--tag); border-radius: 10px; padding: 12px; text-align: center; }
-.stat-box .val { font-size: 16px; font-weight: 800; font-family: 'DM Mono', monospace; }
+.stat-box .val { font-size: 16px; font-weight: 800; font-family: ui-monospace, 'SF Mono', 'Menlo', 'Consolas', 'Roboto Mono', monospace; }
 .stat-box .lbl { font-size: 10px; color: var(--muted); margin-top: 2px; }
 
 /* ── Calendar grid ── */
@@ -212,7 +211,7 @@ header {
   font-size: 10px; color: var(--muted); position: relative; transition: transform .12s;
 }
 .cal-cell:hover { transform: translateY(-2px); }
-.cal-cell .num { font-family: 'DM Mono', monospace; font-weight: 700; font-size: 12px; color: var(--text); }
+.cal-cell .num { font-family: ui-monospace, 'SF Mono', 'Menlo', 'Consolas', 'Roboto Mono', monospace; font-weight: 700; font-size: 12px; color: var(--text); }
 .cal-cell.done { background: #eaf7f0; border-color: var(--green); }
 .cal-cell.done .num { color: var(--green); }
 .cal-cell.current { border-color: var(--blue); border-width: 2px; }
@@ -240,9 +239,9 @@ header {
   border-radius: 10px; padding: 10px 12px; margin-bottom: 7px;
 }
 .review-item .txt { flex: 1; }
-.review-item .en { font-size: 13px; font-weight: 600; font-family: 'DM Mono', monospace; }
+.review-item .en { font-size: 13px; font-weight: 600; font-family: ui-monospace, 'SF Mono', 'Menlo', 'Consolas', 'Roboto Mono', monospace; }
 .review-item .ko { font-size: 11.5px; color: var(--muted); margin-top: 1px; }
-.review-item .day-tag { font-size: 9px; color: var(--muted); font-family: 'DM Mono', monospace; white-space: nowrap; }
+.review-item .day-tag { font-size: 9px; color: var(--muted); font-family: ui-monospace, 'SF Mono', 'Menlo', 'Consolas', 'Roboto Mono', monospace; white-space: nowrap; }
 .review-item .speak-btn { border: none; background: none; cursor: pointer; font-size: 15px; flex-shrink: 0; }
 
 /* ── Misc ── */
