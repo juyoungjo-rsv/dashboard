@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>여행 영어 한 달 챌린지</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #f5f7fb;
+  --surface: #ffffff;
+  --border: #e6e9f0;
+  --text: #1a2233;
+  --muted: #8a92a6;
+  --tag: #eef1f8;
+  --blue: #3b6ea5;
+  --sky: #5aa9e6;
+  --green: #3fa976;
+  --orange: #e08a3c;
+  --red: #d15b5b;
+  --purple: #8b6bc9;
+  --gold: #d4a72c;
+}
+
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  padding: 24px 16px 90px;
+}
+
+/* ── Header ── */
+header {
+  max-width: 760px;
+  margin: 0 auto 18px;
+}
+.title-block { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+.title-block h1 { font-size: 21px; font-weight: 900; letter-spacing: -0.5px; }
+.title-block .streak {
+  display: flex; align-items: center; gap: 5px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 99px; padding: 6px 12px; font-size: 13px; font-weight: 700;
+  font-family: 'DM Mono', monospace;
+}
+.dday-banner {
+  background: linear-gradient(135deg, var(--blue), var(--sky));
+  color: white; border-radius: 14px; padding: 14px 16px;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 10px;
+}
+.dday-banner .dday-main { font-size: 14px; font-weight: 700; }
+.dday-banner .dday-num { font-family: 'DM Mono', monospace; font-size: 20px; font-weight: 700; margin-left: 6px; }
+.dday-banner input[type=date] {
+  border: none; border-radius: 8px; padding: 6px 8px; font-size: 12px;
+  font-family: 'DM Mono', monospace; background: rgba(255,255,255,.9); color: var(--text);
+}
+
+/* ── Tabs ── */
+.tabs {
+  max-width: 760px; margin: 18px auto 20px;
+  display: flex; gap: 6px; border-bottom: 1px solid var(--border);
+}
+.tab-btn {
+  background: none; border: none; cursor: pointer;
+  font-family: 'Noto Sans KR', sans-serif; font-size: 13px; font-weight: 600;
+  color: var(--muted); padding: 9px 14px 11px;
+  border-bottom: 2px solid transparent; margin-bottom: -1px;
+  transition: color .15s, border-color .15s;
+}
+.tab-btn.active { color: var(--blue); border-bottom-color: var(--blue); }
+.tab-btn:hover:not(.active) { color: var(--text); }
+
+.tab-content { max-width: 760px; margin: 0 auto; display: none; }
+.tab-content.active { display: block; animation: fadeUp .3s ease both; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ── Card ── */
+.card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 16px; padding: 20px 20px 22px; margin-bottom: 14px;
+}
+.card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+.card-icon {
+  width: 34px; height: 34px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center; font-size: 17px; flex-shrink: 0;
+}
+.card-title { font-size: 14px; font-weight: 700; }
+.card-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.divider { height: 1px; background: var(--border); margin: 16px 0; }
+
+/* ── Day nav ── */
+.day-nav {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 14px; gap: 10px;
+}
+.day-nav button {
+  background: var(--tag); border: none; border-radius: 8px;
+  width: 32px; height: 32px; cursor: pointer; font-size: 15px; color: var(--text);
+  display: flex; align-items: center; justify-content: center; transition: background .15s;
+}
+.day-nav button:hover { background: var(--border); }
+.day-nav button:disabled { opacity: .35; cursor: not-allowed; }
+.day-label { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); text-align: center; }
+.day-label b { color: var(--text); font-size: 13px; }
+.recommend-badge {
+  display: inline-block; background: #eaf3ff; color: var(--blue);
+  font-size: 10px; font-weight: 700; border-radius: 99px; padding: 2px 8px; margin-left: 6px;
+}
+.day-situ { font-size: 12.5px; color: var(--muted); line-height: 1.6; margin-top: 4px; }
+
+/* ── Flashcard ── */
+.flashcard {
+  background: var(--tag); border-radius: 14px; padding: 26px 20px;
+  text-align: center; min-height: 150px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+}
+.fc-en { font-size: 19px; font-weight: 700; line-height: 1.4; font-family: 'DM Mono', monospace; }
+.fc-pron { font-size: 12px; color: var(--muted); }
+.fc-ko { font-size: 14px; color: var(--text); margin-top: 4px; }
+.fc-controls { display: flex; justify-content: center; gap: 8px; margin-top: 14px; }
+.fc-btn {
+  border: 1px solid var(--border); background: var(--surface);
+  border-radius: 99px; padding: 7px 14px; font-size: 12px; cursor: pointer;
+  font-family: 'Noto Sans KR', sans-serif; transition: background .15s, opacity .15s;
+}
+.fc-btn:hover { background: var(--tag); }
+.fc-btn:disabled { opacity: .45; cursor: not-allowed; }
+.fc-nav { display: flex; align-items: center; justify-content: space-between; margin-top: 12px; }
+.fc-nav button {
+  background: none; border: 1px solid var(--border); border-radius: 8px;
+  width: 30px; height: 30px; cursor: pointer; font-size: 14px; color: var(--text);
+}
+.fc-nav button:disabled { opacity: .3; cursor: not-allowed; }
+.fc-counter { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); }
+.fc-dots { display: flex; justify-content: center; gap: 5px; margin-top: 10px; }
+.fc-dot { width: 6px; height: 6px; border-radius: 99px; background: var(--border); transition: background .15s; }
+.fc-dot.active { background: var(--blue); }
+.fc-dot.seen { background: #bcd6ee; }
+
+/* ── Dialogue ── */
+.dlg-line { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; }
+.dlg-who {
+  width: 24px; height: 24px; border-radius: 99px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; color: white; font-family: 'DM Mono', monospace;
+}
+.dlg-who.A { background: var(--blue); }
+.dlg-who.B { background: var(--orange); }
+.dlg-body { flex: 1; background: var(--tag); border-radius: 10px; padding: 9px 12px; }
+.dlg-en { font-size: 13px; font-weight: 600; }
+.dlg-ko { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.dlg-speak {
+  border: none; background: none; cursor: pointer; font-size: 13px;
+  color: var(--muted); flex-shrink: 0; padding: 2px;
+}
+
+/* ── Quiz ── */
+.quiz-progress { display: flex; gap: 4px; margin-bottom: 14px; }
+.quiz-progress .seg { flex: 1; height: 5px; border-radius: 99px; background: var(--border); }
+.quiz-progress .seg.done { background: var(--green); }
+.quiz-progress .seg.cur { background: var(--blue); }
+.quiz-q { font-size: 16px; font-weight: 700; font-family: 'DM Mono', monospace; margin-bottom: 4px; }
+.quiz-sub { font-size: 11px; color: var(--muted); margin-bottom: 14px; }
+.quiz-opt {
+  display: block; width: 100%; text-align: left; border: 1.5px solid var(--border);
+  background: var(--surface); border-radius: 10px; padding: 12px 14px; margin-bottom: 8px;
+  font-size: 13.5px; cursor: pointer; font-family: 'Noto Sans KR', sans-serif;
+  transition: border-color .15s, background .15s;
+}
+.quiz-opt:hover:not(:disabled) { border-color: var(--blue); }
+.quiz-opt.correct { border-color: var(--green); background: #eaf7f0; }
+.quiz-opt.wrong { border-color: var(--red); background: #fbecec; }
+.quiz-opt:disabled { cursor: not-allowed; }
+.quiz-result { text-align: center; padding: 10px 0; }
+.quiz-result .score { font-size: 34px; font-weight: 900; font-family: 'DM Mono', monospace; }
+.quiz-result .msg { font-size: 13px; color: var(--muted); margin-top: 4px; margin-bottom: 16px; }
+.primary-btn {
+  background: var(--blue); color: white; border: none; border-radius: 10px;
+  padding: 12px 18px; font-size: 13.5px; font-weight: 700; cursor: pointer;
+  font-family: 'Noto Sans KR', sans-serif; transition: opacity .15s; width: 100%;
+}
+.primary-btn:hover { opacity: .88; }
+.ghost-btn {
+  background: none; color: var(--blue); border: 1px solid var(--blue); border-radius: 10px;
+  padding: 11px 18px; font-size: 13px; font-weight: 700; cursor: pointer;
+  font-family: 'Noto Sans KR', sans-serif; width: 100%; margin-top: 8px;
+}
+
+/* ── Progress ring ── */
+.score-row { display: flex; align-items: center; gap: 18px; margin-bottom: 4px; }
+.ring-wrap { position: relative; width: 76px; height: 76px; flex-shrink: 0; }
+.ring-wrap svg { transform: rotate(-90deg); }
+.ring-bg { fill: none; stroke: var(--border); stroke-width: 6; }
+.ring-fill { fill: none; stroke: var(--blue); stroke-width: 6; stroke-linecap: round; transition: stroke-dashoffset .7s cubic-bezier(.4,0,.2,1); }
+.ring-label { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: 'DM Mono', monospace; font-size: 15px; font-weight: 700; }
+.score-info .big { font-size: 17px; font-weight: 800; }
+.score-info .desc { font-size: 12px; color: var(--muted); margin-top: 3px; }
+.stat-row { display: flex; gap: 10px; margin-top: 16px; }
+.stat-box { flex: 1; background: var(--tag); border-radius: 10px; padding: 12px; text-align: center; }
+.stat-box .val { font-size: 16px; font-weight: 800; font-family: 'DM Mono', monospace; }
+.stat-box .lbl { font-size: 10px; color: var(--muted); margin-top: 2px; }
+
+/* ── Calendar grid ── */
+.cal-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 7px; }
+.cal-cell {
+  aspect-ratio: 1; border-radius: 10px; border: 1.5px solid var(--border);
+  background: var(--surface); display: flex; flex-direction: column;
+  align-items: center; justify-content: center; cursor: pointer; gap: 1px;
+  font-size: 10px; color: var(--muted); position: relative; transition: transform .12s;
+}
+.cal-cell:hover { transform: translateY(-2px); }
+.cal-cell .num { font-family: 'DM Mono', monospace; font-weight: 700; font-size: 12px; color: var(--text); }
+.cal-cell.done { background: #eaf7f0; border-color: var(--green); }
+.cal-cell.done .num { color: var(--green); }
+.cal-cell.current { border-color: var(--blue); border-width: 2px; }
+.cal-cell.done::after {
+  content: '✓'; position: absolute; top: -5px; right: -5px;
+  background: var(--green); color: white; width: 15px; height: 15px; border-radius: 99px;
+  font-size: 9px; display: flex; align-items: center; justify-content: center;
+}
+@media (max-width: 480px) { .cal-grid { grid-template-columns: repeat(5, 1fr); } }
+
+/* ── Badges ── */
+.badge-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.badge-item {
+  display: flex; align-items: center; gap: 10px; background: var(--tag);
+  border-radius: 12px; padding: 10px 12px; opacity: .38;
+}
+.badge-item.earned { opacity: 1; background: #fff8ea; }
+.badge-item .em { font-size: 22px; }
+.badge-item .nm { font-size: 12px; font-weight: 700; }
+.badge-item .ds { font-size: 10px; color: var(--muted); margin-top: 1px; }
+
+/* ── Review list ── */
+.review-item {
+  display: flex; align-items: center; gap: 10px; background: var(--tag);
+  border-radius: 10px; padding: 10px 12px; margin-bottom: 7px;
+}
+.review-item .txt { flex: 1; }
+.review-item .en { font-size: 13px; font-weight: 600; font-family: 'DM Mono', monospace; }
+.review-item .ko { font-size: 11.5px; color: var(--muted); margin-top: 1px; }
+.review-item .day-tag { font-size: 9px; color: var(--muted); font-family: 'DM Mono', monospace; white-space: nowrap; }
+.review-item .speak-btn { border: none; background: none; cursor: pointer; font-size: 15px; flex-shrink: 0; }
+
+/* ── Misc ── */
+.empty-hint { font-size: 13px; color: var(--muted); text-align: center; padding: 20px 10px; line-height: 1.7; }
+.reset-link {
+  display: block; text-align: center; font-size: 11px; color: var(--muted);
+  margin-top: 4px; cursor: pointer; text-decoration: underline; background: none; border: none;
+}
+.toast {
+  position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%) translateY(20px);
+  background: var(--text); color: white; padding: 11px 20px; border-radius: 99px;
+  font-size: 13px; opacity: 0; transition: all .3s; pointer-events: none; white-space: nowrap; z-index: 50;
+  max-width: 90vw; overflow: hidden; text-overflow: ellipsis;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.confetti-piece {
+  position: fixed; top: -20px; font-size: 20px; pointer-events: none; z-index: 60;
+  animation: fall linear forwards;
+}
+@keyframes fall { to { transform: translateY(105vh) rotate(360deg); opacity: .3; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="title-block">
+    <h1>🌍 여행 영어 한 달 챌린지</h1>
+    <div class="streak">🔥 <span id="streak-num">0</span>일 연속</div>
+  </div>
+  <div class="dday-banner">
+    <div class="dday-main">✈️ 여행까지 <span class="dday-num" id="dday-num">D-30</span></div>
+    <input type="date" id="trip-date-input">
+  </div>
+</header>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="switchTab('learn')">🎯 오늘의 학습</button>
+  <button class="tab-btn" onclick="switchTab('progress')">📊 진도</button>
+  <button class="tab-btn" onclick="switchTab('review')">🔁 복습</button>
+</div>
+
+<!-- ── 학습 ── -->
+<div class="tab-content active" id="tab-learn">
+
+  <div class="card">
+    <div class="day-nav">
+      <button id="day-prev" onclick="goDay(-1)">‹</button>
+      <div class="day-label">
+        <b id="day-label-main">Day 1 / 30</b><span class="recommend-badge" id="recommend-badge" style="display:none">오늘 추천</span><br>
+        <span id="day-label-week">1주차</span>
+      </div>
+      <button id="day-next" onclick="goDay(1)">›</button>
+    </div>
+    <div class="card-header">
+      <div class="card-icon" id="day-icon" style="background:#eaf3ff">👋</div>
+      <div>
+        <div class="card-title" id="day-title">인사 & 자기소개</div>
+        <div class="day-situ" id="day-situ"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon" style="background:#eaf3ff">🗣️</div>
+      <div>
+        <div class="card-title">핵심 표현 카드</div>
+        <div class="card-sub">듣기 버튼을 눌러 발음을 확인해보세요</div>
+      </div>
+    </div>
+    <div class="flashcard" id="flashcard">
+      <div class="fc-en" id="fc-en"></div>
+      <div class="fc-pron" id="fc-pron"></div>
+      <div class="fc-ko" id="fc-ko"></div>
+      <div class="fc-controls">
+        <button class="fc-btn" id="fc-speak-btn" onclick="speakCurrent()">🔊 듣기</button>
+        <button class="fc-btn" id="fc-mic-btn" onclick="shadowCurrent()">🎤 말해보기</button>
+      </div>
+    </div>
+    <div class="fc-nav">
+      <button id="fc-prev" onclick="fcMove(-1)">‹</button>
+      <span class="fc-counter" id="fc-counter">1 / 6</span>
+      <button id="fc-next" onclick="fcMove(1)">›</button>
+    </div>
+    <div class="fc-dots" id="fc-dots"></div>
+  </div>
+
+  <div class="card" id="dialogue-card">
+    <div class="card-header">
+      <div class="card-icon" style="background:#fdf1e6">💬</div>
+      <div>
+        <div class="card-title">짧은 대화 예시</div>
+        <div class="card-sub">실제 상황에서 이렇게 써먹어요</div>
+      </div>
+    </div>
+    <div id="dialogue-body"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon" style="background:#f3edfb">📝</div>
+      <div>
+        <div class="card-title">오늘의 퀴즈</div>
+        <div class="card-sub" id="quiz-card-sub">70% 이상 맞히면 학습 완료!</div>
+      </div>
+    </div>
+    <div id="quiz-body"></div>
+  </div>
+
+</div>
+
+<!-- ── 진도 ── -->
+<div class="tab-content" id="tab-progress">
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon" style="background:#eaf3ff">📊</div>
+      <div>
+        <div class="card-title">전체 진행률</div>
+        <div class="card-sub" id="level-title">여행 새싹 🌱</div>
+      </div>
+    </div>
+    <div class="score-row">
+      <div class="ring-wrap">
+        <svg width="76" height="76" viewBox="0 0 76 76">
+          <circle class="ring-bg" cx="38" cy="38" r="32"/>
+          <circle class="ring-fill" id="progress-ring" cx="38" cy="38" r="32" stroke-dasharray="201" stroke-dashoffset="201"/>
+        </svg>
+        <div class="ring-label" id="progress-pct">0%</div>
+      </div>
+      <div class="score-info">
+        <div class="big" id="progress-days">0 / 30일 완료</div>
+        <div class="desc">매일 하나씩, 한 달이면 완성돼요</div>
+      </div>
+    </div>
+    <div class="stat-row">
+      <div class="stat-box"><div class="val" id="stat-xp">0</div><div class="lbl">총 XP</div></div>
+      <div class="stat-box"><div class="val" id="stat-streak">0</div><div class="lbl">연속 접속</div></div>
+      <div class="stat-box"><div class="val" id="stat-badges">0 / 7</div><div class="lbl">뱃지</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon" style="background:#eaf7f0">📅</div>
+      <div>
+        <div class="card-title">30일 캘린더</div>
+        <div class="card-sub">완료한 날은 초록색으로 표시돼요</div>
+      </div>
+    </div>
+    <div class="cal-grid" id="cal-grid"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon" style="background:#fff8ea">🏅</div>
+      <div>
+        <div class="card-title">뱃지 컬렉션</div>
+        <div class="card-sub">학습하면서 하나씩 모아보세요</div>
+      </div>
+    </div>
+    <div class="badge-grid" id="badge-grid"></div>
+  </div>
+
+  <button class="reset-link" onclick="resetProgress()">진행 상황 초기화</button>
+</div>
+
+<!-- ── 복습 ── -->
+<div class="tab-content" id="tab-review">
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon" style="background:#f3edfb">🔁</div>
+      <div>
+        <div class="card-title">전체 복습 퀴즈</div>
+        <div class="card-sub">지금까지 배운 표현을 랜덤으로 테스트해요</div>
+      </div>
+    </div>
+    <div id="review-quiz-body"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon" style="background:#eaf3ff">📚</div>
+      <div>
+        <div class="card-title">지금까지 배운 표현</div>
+        <div class="card-sub">나만의 여행 영어 사전</div>
+      </div>
+    </div>
+    <div id="review-list"></div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============ 30일 커리큘럼 데이터 ============
+   ph: [en, ko, pron] 6개 / dl: [화자, en, ko] / rr: 복습 범위 [start,end] / qn: 퀴즈 문항 수 */
+const DAYS_RAW = [
+{d:1,wk:1,ti:"인사 & 자기소개",em:"👋",su:"기내와 공항에서 자주 쓰는 첫인사와 자기소개 표현이에요.",
+ ph:[["Hello! Nice to meet you.","안녕하세요! 만나서 반가워요.","헬로! 나이스 투 밋 유"],
+ ["My name is Jane.","제 이름은 제인이에요.","마이 네임 이즈 제인"],
+ ["I'm from Korea.","저는 한국에서 왔어요.","아임 프롬 코리아"],
+ ["How are you?","어떻게 지내세요?","하우 아 유"],
+ ["I'm fine, thank you.","저는 잘 지내요, 감사합니다.","아임 파인 땡큐"],
+ ["Nice to meet you too.","저도 만나서 반가워요.","나이스 투 밋 유 투"]],
+ dl:[["A","Hi! What's your name?","안녕하세요! 이름이 뭐예요?"],["B","I'm Jane. Nice to meet you.","저는 제인이에요. 만나서 반가워요."],["A","Nice to meet you too. Where are you from?","저도 반가워요. 어디서 오셨어요?"],["B","I'm from Korea.","한국에서 왔어요."]]},
+{d:2,wk:1,ti:"숫자 & 부탁하기",em:"🔢",su:"숫자와 '~해주시겠어요?' 같은 기본 부탁 표현이에요.",
+ ph:[["One, two, three, four, five.","하나, 둘, 셋, 넷, 다섯.","원 투 쓰리 포 파이브"],
+ ["Can I have this, please?","이거 주시겠어요?","캔 아이 해브 디스 플리즈"],
+ ["Could you help me, please?","저 좀 도와주시겠어요?","쿠쥬 헬프 미 플리즈"],
+ ["How much is this?","이거 얼마예요?","하우 머치 이즈 디스"],
+ ["I need two tickets.","티켓 두 장이 필요해요.","아이 니드 투 티켓츠"],
+ ["Excuse me.","실례합니다 / 저기요.","익스큐즈 미"]],
+ dl:[["A","Excuse me, how much is this?","실례합니다, 이거 얼마예요?"],["B","It's ten dollars.","10달러예요."],["A","Can I have two, please?","두 개 주시겠어요?"],["B","Sure!","네, 그럴게요!"]]},
+{d:3,wk:1,ti:"공항 체크인 & 보안검색",em:"🛫",su:"체크인 카운터와 보안검색대에서 쓰는 표현이에요.",
+ ph:[["Here is my passport.","여기 제 여권이요.","히어 이즈 마이 패스포트"],
+ ["I'd like a window seat.","창가 자리로 주세요.","아이드 라이크 어 윈도우 씻"],
+ ["Where is the check-in counter?","체크인 카운터가 어디예요?","웨어 이즈 더 체크인 카운터"],
+ ["I have one bag to check.","부칠 짐이 하나 있어요.","아이 해브 원 백 투 첵"],
+ ["Do I need to take off my shoes?","신발을 벗어야 하나요?","두 아이 니드 투 테이크 오프 마이 슈즈"],
+ ["Where is the gate?","게이트가 어디예요?","웨어 이즈 더 게이트"]],
+ dl:[["A","Here is my passport and ticket.","여기 여권과 티켓이요."],["B","Thank you. Window or aisle seat?","감사합니다. 창가 자리, 복도 자리 중 어디로 드릴까요?"],["A","Window seat, please.","창가 자리로 주세요."],["B","Okay, here's your boarding pass.","네, 탑승권 드릴게요."]]},
+{d:4,wk:1,ti:"입국심사 & 세관",em:"🛃",su:"입국 심사관과 세관에서 묻고 답하는 표현이에요.",
+ ph:[["I'm here for vacation.","휴가로 왔어요.","아임 히어 포 베케이션"],
+ ["I'll stay for one week.","일주일 동안 있을 거예요.","아일 스테이 포 원 위크"],
+ ["I'm staying at this hotel.","이 호텔에 머물러요.","아임 스테잉 앳 디스 호텔"],
+ ["I have nothing to declare.","신고할 물건이 없어요.","아이 해브 낫띵 투 디클레어"],
+ ["This is for personal use.","이건 개인적으로 쓸 물건이에요.","디스 이즈 포 퍼스널 유즈"],
+ ["Here is my return ticket.","여기 제 왕복 티켓이요.","히어 이즈 마이 리턴 티켓"]],
+ dl:[["A","What's the purpose of your visit?","방문 목적이 뭔가요?"],["B","I'm here for vacation.","휴가로 왔어요."],["A","How long will you stay?","얼마나 머무르실 건가요?"],["B","One week.","일주일이요."]]},
+{d:5,wk:1,ti:"길 찾기 & 도움 요청",em:"🧭",su:"공항 안에서 길을 잃었을 때 쓰는 표현이에요.",
+ ph:[["Where is the restroom?","화장실이 어디예요?","웨어 이즈 더 레스트룸"],
+ ["Which way to Gate 5?","5번 게이트는 어느 쪽이에요?","위치 웨이 투 게이트 파이브"],
+ ["Is this the right line?","이 줄이 맞나요?","이즈 디스 더 라이트 라인"],
+ ["I think I'm lost.","저 길을 잃은 것 같아요.","아이 씽크 아임 로스트"],
+ ["Can you help me find my gate?","게이트 찾는 것 좀 도와주시겠어요?","캔 유 헬프 미 파인드 마이 게이트"],
+ ["Thank you for your help.","도와주셔서 감사해요.","땡큐 포 유어 헬프"]],
+ dl:[["A","Excuse me, where is Gate 5?","실례합니다, 5번 게이트가 어디예요?"],["B","Go straight and turn left.","직진하다가 좌회전하세요."],["A","Thank you so much!","정말 감사합니다!"]]},
+{d:6,wk:1,ti:"수하물 찾기 & 분실",em:"🧳",su:"짐을 찾을 때, 혹은 짐이 사라졌을 때 쓰는 표현이에요.",
+ ph:[["Where is baggage claim?","수하물 찾는 곳이 어디예요?","웨어 이즈 배기지 클레임"],
+ ["My bag is missing.","제 짐이 없어졌어요.","마이 백 이즈 미씽"],
+ ["It's a black suitcase.","검은색 캐리어예요.","잇츠 어 블랙 수트케이스"],
+ ["Here is my baggage tag.","여기 제 수하물 태그예요.","히어 이즈 마이 배기지 택"],
+ ["When will I get it back?","언제 돌려받을 수 있어요?","웬 윌 아이 겟 잇 백"],
+ ["Can you call me when you find it?","찾으면 전화해주시겠어요?","캔 유 콜 미 웬 유 파인드 잇"]],
+ dl:[["A","My bag is missing.","제 짐이 없어졌어요."],["B","What does it look like?","어떻게 생겼나요?"],["A","It's a black suitcase with a red ribbon.","빨간 리본이 달린 검은색 캐리어예요."],["B","Okay, please fill out this form.","네, 이 양식을 작성해주세요."]]},
+{d:7,wk:1,ti:"1주차 복습",em:"🎉",su:"이번 주에 배운 표현들을 모아서 복습해요. 8문제를 풀어보세요!",rr:[1,6],qn:8,
+ ph:[["Hello! Nice to meet you.","안녕하세요! 만나서 반가워요.","헬로! 나이스 투 밋 유"],
+ ["Could you help me, please?","저 좀 도와주시겠어요?","쿠쥬 헬프 미 플리즈"],
+ ["I'd like a window seat.","창가 자리로 주세요.","아이드 라이크 어 윈도우 씻"],
+ ["I have nothing to declare.","신고할 물건이 없어요.","아이 해브 낫띵 투 디클레어"],
+ ["Can you help me find my gate?","게이트 찾는 것 좀 도와주시겠어요?","캔 유 헬프 미 파인드 마이 게이트"],
+ ["My bag is missing.","제 짐이 없어졌어요.","마이 백 이즈 미씽"]],
+ dl:[]},
+
+{d:8,wk:2,ti:"택시 타기",em:"🚕",su:"택시를 타고 목적지까지 이동할 때 쓰는 표현이에요.",
+ ph:[["Can you take me to this address?","이 주소로 가주시겠어요?","캔 유 테이크 미 투 디스 어드레스"],
+ ["How much will it cost?","요금이 얼마나 나올까요?","하우 머치 윌 잇 코스트"],
+ ["Please stop here.","여기서 세워주세요.","플리즈 스탑 히어"],
+ ["Can you turn on the meter?","미터기 켜주시겠어요?","캔 유 턴 온 더 미터"],
+ ["How long will it take?","얼마나 걸릴까요?","하우 롱 윌 잇 테이크"],
+ ["Keep the change.","잔돈은 가지세요.","킵 더 체인지"]],
+ dl:[["A","Can you take me to the airport?","공항으로 가주시겠어요?"],["B","Sure. That'll take about 20 minutes.","네, 20분 정도 걸려요."],["A","How much will it cost?","요금이 얼마나 나올까요?"],["B","About 30 dollars.","30달러 정도요."]]},
+{d:9,wk:2,ti:"대중교통 (버스/지하철)",em:"🚌",su:"버스나 지하철을 탈 때 쓰는 표현이에요.",
+ ph:[["Which bus goes downtown?","시내로 가는 버스가 뭐예요?","위치 버스 고우즈 다운타운"],
+ ["Where can I buy a ticket?","표는 어디서 사요?","웨어 캔 아이 바이 어 티켓"],
+ ["Does this train go to the station?","이 기차가 그 역에 가나요?","더즈 디스 트레인 고우 투 더 스테이션"],
+ ["Which stop should I get off at?","어느 정류장에서 내려야 해요?","위치 스탑 슈드 아이 겟 오프 앳"],
+ ["Is this seat taken?","이 자리 사람 있나요?","이즈 디스 씻 테이큰"],
+ ["How many stops left?","몇 정거장 남았어요?","하우 매니 스탑스 레프트"]],
+ dl:[["A","Excuse me, which bus goes downtown?","시내로 가는 버스가 뭐예요?"],["B","Take bus number 10.","10번 버스를 타세요."],["A","Where can I buy a ticket?","표는 어디서 사요?"],["B","You can buy it on the bus.","버스에서 살 수 있어요."]]},
+{d:10,wk:2,ti:"길 물어보기",em:"🗺️",su:"거리에서 목적지로 가는 길을 물어볼 때 쓰는 표현이에요.",
+ ph:[["Excuse me, how do I get to the museum?","박물관에 어떻게 가나요?","익스큐즈 미 하우 두 아이 겟 투 더 뮤지엄"],
+ ["Go straight and turn left.","직진하다가 좌회전하세요.","고 스트레이트 앤 턴 레프트"],
+ ["Is it far from here?","여기서 먼가요?","이즈 잇 파 프롬 히어"],
+ ["How long does it take to walk?","걸어서 얼마나 걸려요?","하우 롱 더즈 잇 테이크 투 워크"],
+ ["Can you show me on the map?","지도에 표시해주시겠어요?","캔 유 쇼우 미 온 더 맵"],
+ ["It's on the right side.","오른쪽에 있어요.","잇츠 온 더 라이트 사이드"]],
+ dl:[["A","Excuse me, how do I get to the museum?","박물관에 어떻게 가나요?"],["B","Go straight, then turn left. It's on the right.","직진하다가 좌회전하세요. 오른쪽에 있어요."],["A","Is it far?","먼가요?"],["B","No, about 5 minutes.","아니요, 5분 정도요."]]},
+{d:11,wk:2,ti:"호텔 체크인",em:"🏨",su:"호텔에 도착해서 체크인할 때 쓰는 표현이에요.",
+ ph:[["I have a reservation.","예약했어요.","아이 해브 어 레저베이션"],
+ ["Here is my ID.","여기 제 신분증이요.","히어 이즈 마이 아이디"],
+ ["What time is check-out?","체크아웃은 몇 시예요?","왓 타임 이즈 체크아웃"],
+ ["Can I get a room with a nice view?","전망 좋은 방으로 주시겠어요?","캔 아이 겟 어 룸 위드 어 나이스 뷰"],
+ ["Is breakfast included?","아침 식사가 포함되나요?","이즈 브렉퍼스트 인클루디드"],
+ ["Where is the elevator?","엘리베이터가 어디예요?","웨어 이즈 디 엘리베이터"]],
+ dl:[["A","Hi, I have a reservation under Kim.","안녕하세요, 김으로 예약했어요."],["B","Great, here's your key. Breakfast is on the 2nd floor.","네, 키 드릴게요. 조식은 2층이에요."],["A","What time is check-out?","체크아웃은 몇 시예요?"],["B","11 AM.","오전 11시예요."]]},
+{d:12,wk:2,ti:"호텔 요청 & 문제해결",em:"🛎️",su:"호텔에서 필요한 걸 요청하거나 문제를 해결할 때 쓰는 표현이에요.",
+ ph:[["Can I get more towels?","수건 더 주시겠어요?","캔 아이 겟 모어 타월즈"],
+ ["The Wi-Fi isn't working.","와이파이가 안 돼요.","더 와이파이 이즌트 워킹"],
+ ["The room is too cold.","방이 너무 춥네요.","더 룸 이즈 투 콜드"],
+ ["Can I get a wake-up call?","모닝콜 부탁드려도 될까요?","캔 아이 겟 어 웨이크업 콜"],
+ ["I'd like to change my room.","방을 바꾸고 싶어요.","아이드 라이크 투 체인지 마이 룸"],
+ ["Can you send someone to fix this?","고쳐주실 분 좀 보내주시겠어요?","캔 유 센드 썸원 투 픽스 디스"]],
+ dl:[["A","Hi, the Wi-Fi isn't working in my room.","방에 와이파이가 안 돼요."],["B","I'm sorry. I'll send someone right away.","죄송해요. 바로 사람을 보내드릴게요."],["A","Thank you. Can I also get more towels?","감사해요. 수건도 더 주시겠어요?"],["B","Of course.","물론이죠."]]},
+{d:13,wk:2,ti:"호텔 체크아웃",em:"🧾",su:"호텔에서 나갈 때 쓰는 체크아웃 표현이에요.",
+ ph:[["I'd like to check out, please.","체크아웃하고 싶어요.","아이드 라이크 투 체크아웃 플리즈"],
+ ["Can I get a receipt?","영수증 주시겠어요?","캔 아이 겟 어 리씻"],
+ ["Can you call a taxi for me?","택시 좀 불러주시겠어요?","캔 유 콜 어 택시 포 미"],
+ ["Can I leave my bags here for a while?","짐을 잠시 맡길 수 있을까요?","캔 아이 리브 마이 백스 히어 포 어 와일"],
+ ["I had a great stay, thank you.","정말 좋은 시간이었어요, 감사합니다.","아이 해드 어 그레이트 스테이 땡큐"],
+ ["Is there a late check-out option?","늦은 체크아웃이 가능한가요?","이즈 데어 어 레이트 체크아웃 옵션"]],
+ dl:[["A","I'd like to check out, please.","체크아웃하고 싶어요."],["B","Sure, here's your receipt.","네, 영수증 드릴게요."],["A","Can you call a taxi for me?","택시 좀 불러주시겠어요?"],["B","Of course, it'll be here in 5 minutes.","네, 5분 안에 도착할 거예요."]]},
+{d:14,wk:2,ti:"2주차 복습",em:"🎉",su:"교통과 호텔에서 배운 표현들을 모아서 복습해요.",rr:[8,13],qn:8,
+ ph:[["Can you take me to this address?","이 주소로 가주시겠어요?","캔 유 테이크 미 투 디스 어드레스"],
+ ["Which bus goes downtown?","시내로 가는 버스가 뭐예요?","위치 버스 고우즈 다운타운"],
+ ["Excuse me, how do I get to the museum?","박물관에 어떻게 가나요?","익스큐즈 미 하우 두 아이 겟 투 더 뮤지엄"],
+ ["I have a reservation.","예약했어요.","아이 해브 어 레저베이션"],
+ ["The Wi-Fi isn't working.","와이파이가 안 돼요.","더 와이파이 이즌트 워킹"],
+ ["I'd like to check out, please.","체크아웃하고 싶어요.","아이드 라이크 투 체크아웃 플리즈"]],
+ dl:[]},
+
+{d:15,wk:3,ti:"식당 예약 & 자리 안내",em:"🍽️",su:"식당에 들어가서 자리를 안내받을 때 쓰는 표현이에요.",
+ ph:[["I'd like to make a reservation.","예약하고 싶어요.","아이드 라이크 투 메이크 어 레저베이션"],
+ ["A table for two, please.","두 명 자리 부탁해요.","어 테이블 포 투 플리즈"],
+ ["Do you have any tables available?","빈 자리가 있나요?","두 유 해브 애니 테이블즈 어베일러블"],
+ ["How long is the wait?","얼마나 기다려야 하나요?","하우 롱 이즈 더 웨잇"],
+ ["Can we sit by the window?","창가에 앉을 수 있나요?","캔 위 씻 바이 더 윈도우"],
+ ["Is this seat available?","이 자리 비어있나요?","이즈 디스 씻 어베일러블"]],
+ dl:[["A","Hi, a table for two, please.","두 명 자리 부탁해요."],["B","Sure, do you have a reservation?","네, 예약하셨나요?"],["A","No, we don't. How long is the wait?","아니요, 안 했어요. 얼마나 기다려야 하나요?"],["B","About 10 minutes.","10분 정도요."]]},
+{d:16,wk:3,ti:"음식 주문하기",em:"🍔",su:"메뉴를 보고 음식을 주문할 때 쓰는 표현이에요.",
+ ph:[["Can I see the menu, please?","메뉴 좀 보여주시겠어요?","캔 아이 씨 더 메뉴 플리즈"],
+ ["I'll have this one.","이걸로 할게요.","아일 해브 디스 원"],
+ ["What do you recommend?","추천하는 게 있나요?","왓 두 유 레커멘드"],
+ ["Can I get it without onions?","양파 빼고 주시겠어요?","캔 아이 겟 잇 위드아웃 어니언즈"],
+ ["Is this spicy?","이거 매운가요?","이즈 디스 스파이시"],
+ ["Can I have a glass of water?","물 한 잔 주시겠어요?","캔 아이 해브 어 글래스 오브 워터"]],
+ dl:[["A","What do you recommend?","추천하는 게 있나요?"],["B","The pasta is very popular.","파스타가 인기가 많아요."],["A","Great, I'll have that.","좋아요, 그걸로 할게요."],["B","Anything to drink?","마실 것도 필요하신가요?"]]},
+{d:17,wk:3,ti:"계산하기 & 팁",em:"💳",su:"식사 후 계산하고 팁을 낼 때 쓰는 표현이에요.",
+ ph:[["Can I get the check, please?","계산서 주시겠어요?","캔 아이 겟 더 첵 플리즈"],
+ ["Can we split the bill?","각자 계산해도 될까요?","캔 위 스플릿 더 빌"],
+ ["Do you accept credit cards?","신용카드 받나요?","두 유 억셉트 크레딧 카즈"],
+ ["Is service charge included?","봉사료가 포함됐나요?","이즈 서비스 차지 인클루디드"],
+ ["Keep the change, please.","잔돈은 가지세요.","킵 더 체인지 플리즈"],
+ ["That was delicious, thank you.","맛있었어요, 감사합니다.","댓 워즈 딜리셔스 땡큐"]],
+ dl:[["A","Can I get the check, please?","계산서 주시겠어요?"],["B","Sure, here you go.","네, 여기요."],["A","Do you accept credit cards?","신용카드 받나요?"],["B","Yes, we do.","네, 받아요."]]},
+{d:18,wk:3,ti:"카페에서 주문하기",em:"☕",su:"카페에서 커피나 음료를 주문할 때 쓰는 표현이에요.",
+ ph:[["I'd like a small latte, please.","스몰 라떼 하나 주세요.","아이드 라이크 어 스몰 라떼 플리즈"],
+ ["For here or to go?","여기서 드시나요 가져가시나요?","포 히어 오어 투 고우"],
+ ["To go, please.","가져갈게요.","투 고우 플리즈"],
+ ["Can I get less sugar?","설탕 적게 주시겠어요?","캔 아이 겟 레스 슈가"],
+ ["Do you have Wi-Fi here?","여기 와이파이 있나요?","두 유 해브 와이파이 히어"],
+ ["Can I get a receipt?","영수증 주시겠어요?","캔 아이 겟 어 리씻"]],
+ dl:[["A","Hi, I'd like a small latte, please.","스몰 라떼 하나 주세요."],["B","For here or to go?","여기서 드시나요 가져가시나요?"],["A","To go, please.","가져갈게요."],["B","That'll be $4.50.","4달러 50센트예요."]]},
+{d:19,wk:3,ti:"쇼핑 - 가격 & 사이즈",em:"🛍️",su:"쇼핑할 때 가격과 사이즈를 물어보는 표현이에요.",
+ ph:[["How much is this?","이거 얼마예요?","하우 머치 이즈 디스"],
+ ["Do you have this in a different size?","다른 사이즈 있나요?","두 유 해브 디스 인 어 디퍼런트 사이즈"],
+ ["Can I try this on?","입어봐도 될까요?","캔 아이 트라이 디스 온"],
+ ["Where is the fitting room?","피팅룸이 어디예요?","웨어 이즈 더 피팅 룸"],
+ ["Do you have a bigger one?","더 큰 거 있나요?","두 유 해브 어 비거 원"],
+ ["Is there a discount?","할인 있나요?","이즈 데어 어 디스카운트"]],
+ dl:[["A","Excuse me, how much is this?","실례합니다, 이거 얼마예요?"],["B","It's $20.","20달러예요."],["A","Can I try this on?","입어봐도 될까요?"],["B","Sure, the fitting room is over there.","네, 피팅룸은 저쪽이에요."]]},
+{d:20,wk:3,ti:"쇼핑 - 교환 & 환불",em:"🔄",su:"산 물건을 교환하거나 환불받을 때 쓰는 표현이에요.",
+ ph:[["This doesn't fit me.","이거 저한테 안 맞아요.","디스 더즌트 핏 미"],
+ ["Can I get a refund?","환불받을 수 있나요?","캔 아이 겟 어 리펀드"],
+ ["Can I exchange this for another size?","다른 사이즈로 교환할 수 있나요?","캔 아이 익스체인지 디스 포 어나더 사이즈"],
+ ["Do you have the receipt?","영수증 있으세요?","두 유 해브 더 리씻"],
+ ["I'll take this one.","이걸로 할게요.","아일 테이크 디스 원"],
+ ["Can you gift-wrap this?","선물 포장해주실 수 있나요?","캔 유 기프트-랩 디스"]],
+ dl:[["A","This doesn't fit me. Can I exchange it?","이거 안 맞아요. 교환할 수 있나요?"],["B","Sure, do you have the receipt?","네, 영수증 있으세요?"],["A","Yes, here it is.","네, 여기요."],["B","Great, let's find the right size.","좋아요, 맞는 사이즈를 찾아볼게요."]]},
+{d:21,wk:3,ti:"3주차 복습",em:"🎉",su:"식당과 쇼핑에서 배운 표현들을 모아서 복습해요.",rr:[15,20],qn:8,
+ ph:[["I'd like to make a reservation.","예약하고 싶어요.","아이드 라이크 투 메이크 어 레저베이션"],
+ ["Can I see the menu, please?","메뉴 좀 보여주시겠어요?","캔 아이 씨 더 메뉴 플리즈"],
+ ["Can I get the check, please?","계산서 주시겠어요?","캔 아이 겟 더 첵 플리즈"],
+ ["I'd like a small latte, please.","스몰 라떼 하나 주세요.","아이드 라이크 어 스몰 라떼 플리즈"],
+ ["How much is this?","이거 얼마예요?","하우 머치 이즈 디스"],
+ ["Can I get a refund?","환불받을 수 있나요?","캔 아이 겟 어 리펀드"]],
+ dl:[]},
+
+{d:22,wk:4,ti:"스몰토크",em:"💬",su:"현지인과 가볍게 대화를 나눌 때 쓰는 표현이에요.",
+ ph:[["Is this your first time here?","여기 처음 오신 거예요?","이즈 디스 유어 퍼스트 타임 히어"],
+ ["The weather is really nice today.","오늘 날씨 정말 좋네요.","더 웨더 이즈 리얼리 나이스 투데이"],
+ ["What do you do for fun?","취미가 뭐예요?","왓 두 유 두 포 펀"],
+ ["I really like this place.","이 곳이 정말 좋아요.","아이 리얼리 라이크 디스 플레이스"],
+ ["Where are you from?","어디에서 오셨어요?","웨어 아 유 프롬"],
+ ["It was nice talking to you.","얘기 나눠서 즐거웠어요.","잇 워즈 나이스 토킹 투 유"]],
+ dl:[["A","The weather is really nice today.","오늘 날씨 정말 좋네요."],["B","Yes, it is! Is this your first time here?","맞아요! 여기 처음 오신 거예요?"],["A","Yes, it is. I really like this place.","네, 처음이에요. 여기가 정말 좋아요."]]},
+{d:23,wk:4,ti:"관광지에서",em:"🗽",su:"관광지 입구에서 티켓과 정보를 물어볼 때 쓰는 표현이에요.",
+ ph:[["What time does it open?","몇 시에 문 열어요?","왓 타임 더즈 잇 오픈"],
+ ["How much is the entrance fee?","입장료가 얼마예요?","하우 머치 이즈 디 엔트런스 피"],
+ ["Is there a guided tour?","가이드 투어가 있나요?","이즈 데어 어 가이디드 투어"],
+ ["Where can I get tickets?","티켓은 어디서 살 수 있어요?","웨어 캔 아이 겟 티켓츠"],
+ ["What is this place famous for?","여기는 뭐로 유명해요?","왓 이즈 디스 플레이스 페이머스 포"],
+ ["Can I bring food inside?","음식을 가지고 들어갈 수 있나요?","캔 아이 브링 푸드 인사이드"]],
+ dl:[["A","What time does it open?","몇 시에 문 열어요?"],["B","It opens at 9 AM.","오전 9시에 열어요."],["A","How much is the entrance fee?","입장료가 얼마예요?"],["B","It's 15 dollars.","15달러예요."]]},
+{d:24,wk:4,ti:"사진 찍어달라고 부탁하기",em:"📸",su:"여행지에서 사진을 부탁할 때 쓰는 표현이에요.",
+ ph:[["Can you take a picture of us?","저희 사진 좀 찍어주시겠어요?","캔 유 테이크 어 픽처 오브 어스"],
+ ["Just press this button.","이 버튼만 누르시면 돼요.","저스트 프레스 디스 버튼"],
+ ["Can we take a picture with you?","같이 사진 찍어도 될까요?","캔 위 테이크 어 픽처 위드 유"],
+ ["One more, please!","한 장 더요!","원 모어 플리즈"],
+ ["Is it okay to take photos here?","여기서 사진 찍어도 되나요?","이즈 잇 오케이 투 테이크 포토스 히어"],
+ ["Thank you so much!","정말 감사합니다!","땡큐 소 머치"]],
+ dl:[["A","Excuse me, can you take a picture of us?","저희 사진 좀 찍어주시겠어요?"],["B","Sure! Just press this button, right?","네! 이 버튼만 누르면 되죠?"],["A","Yes. One more, please!","네, 한 장 더요!"],["B","Got it!","찍었어요!"]]},
+{d:25,wk:4,ti:"응급상황 표현",em:"🚨",su:"위급한 상황에서 도움을 요청할 때 쓰는 표현이에요. 꼭 외워두세요!",
+ ph:[["Help me, please!","도와주세요!","헬프 미 플리즈"],
+ ["Call an ambulance, please.","구급차 좀 불러주세요.","콜 언 앰뷸런스 플리즈"],
+ ["I lost my passport.","여권을 잃어버렸어요.","아이 로스트 마이 패스포트"],
+ ["Where is the police station?","경찰서가 어디예요?","웨어 이즈 더 폴리스 스테이션"],
+ ["I need a doctor.","의사가 필요해요.","아이 니드 어 닥터"],
+ ["I feel sick.","몸이 안 좋아요.","아이 필 씩"]],
+ dl:[["A","Help me, please! I lost my passport.","도와주세요! 여권을 잃어버렸어요."],["B","Okay, let's go to the police station.","네, 경찰서로 가봐요."],["A","Thank you so much.","정말 감사합니다."]]},
+{d:26,wk:4,ti:"약국 & 병원",em:"💊",su:"몸이 아플 때 약국이나 병원에서 쓰는 표현이에요.",
+ ph:[["Do you have medicine for a headache?","두통약 있나요?","두 유 해브 메디슨 포 어 헤드에이크"],
+ ["I have a stomachache.","배가 아파요.","아이 해브 어 스토머케이크"],
+ ["I have a fever.","열이 나요.","아이 해브 어 피버"],
+ ["How many times a day should I take this?","하루에 몇 번 먹어야 해요?","하우 매니 타임즈 어 데이 슈드 아이 테이크 디스"],
+ ["Is there a hospital nearby?","근처에 병원이 있나요?","이즈 데어 어 하스피탈 니어바이"],
+ ["I'm allergic to this.","저는 이거에 알러지가 있어요.","아임 얼러직 투 디스"]],
+ dl:[["A","Do you have medicine for a headache?","두통약 있나요?"],["B","Yes, here you go.","네, 여기요."],["A","How many times a day should I take this?","하루에 몇 번 먹어야 해요?"],["B","Twice a day, after meals.","하루 두 번, 식후에 드세요."]]},
+{d:27,wk:4,ti:"와이파이 & 환전 & 전화",em:"📶",su:"여행 중 자주 필요한 와이파이, 환전, 통신 관련 표현이에요.",
+ ph:[["Is there free Wi-Fi here?","여기 무료 와이파이 있나요?","이즈 데어 프리 와이파이 히어"],
+ ["What's the Wi-Fi password?","와이파이 비밀번호가 뭐예요?","왓츠 더 와이파이 패스워드"],
+ ["Where can I exchange money?","환전은 어디서 할 수 있어요?","웨어 캔 아이 익스체인지 머니"],
+ ["What's the exchange rate today?","오늘 환율이 어떻게 되나요?","왓츠 디 익스체인지 레이트 투데이"],
+ ["Can I use my phone here?","여기서 휴대폰 쓸 수 있나요?","캔 아이 유즈 마이 폰 히어"],
+ ["Can I borrow a charger?","충전기 좀 빌릴 수 있을까요?","캔 아이 바로우 어 차저"]],
+ dl:[["A","Is there free Wi-Fi here?","여기 무료 와이파이 있나요?"],["B","Yes, the password is welcome123.","네, 비밀번호는 welcome123이에요."],["A","Thank you! And where can I exchange money?","감사해요! 환전은 어디서 하나요?"],["B","There's a bank right next door.","바로 옆에 은행이 있어요."]]},
+{d:28,wk:4,ti:"감사 인사 & 작별 인사",em:"🙏",su:"여행이 끝날 무렵, 감사와 작별을 전하는 표현이에요.",
+ ph:[["Thank you so much for everything.","모든 것에 정말 감사해요.","땡큐 소 머치 포 에브리씽"],
+ ["I really appreciate your help.","도와주셔서 정말 감사해요.","아이 리얼리 어프리시에이트 유어 헬프"],
+ ["It was a wonderful trip.","정말 멋진 여행이었어요.","잇 워즈 어 원더풀 트립"],
+ ["I hope to see you again.","또 만나길 바라요.","아이 호프 투 씨 유 어겐"],
+ ["Take care!","몸조심하세요!","테이크 케어"],
+ ["Have a safe flight.","안전한 비행 되세요.","해브 어 세이프 플라잇"]],
+ dl:[["A","Thank you so much for everything.","모든 것에 정말 감사해요."],["B","You're welcome! It was nice meeting you.","천만에요! 만나서 반가웠어요."],["A","I hope to see you again. Take care!","또 만나길 바라요. 몸조심하세요!"],["B","You too. Have a safe flight!","저도요. 안전한 비행 되세요!"]]},
+{d:29,wk:4,ti:"종합 롤플레이",em:"🎭",su:"한 달 동안 배운 표현들을 섞어서 큰 복습을 해봐요.",rr:[1,28],qn:10,
+ ph:[["Could you help me, please?","저 좀 도와주시겠어요?","쿠쥬 헬프 미 플리즈"],
+ ["I have a reservation.","예약했어요.","아이 해브 어 레저베이션"],
+ ["Can I see the menu, please?","메뉴 좀 보여주시겠어요?","캔 아이 씨 더 메뉴 플리즈"],
+ ["How much is this?","이거 얼마예요?","하우 머치 이즈 디스"],
+ ["Help me, please!","도와주세요!","헬프 미 플리즈"],
+ ["Thank you so much for everything.","모든 것에 정말 감사해요.","땡큐 소 머치 포 에브리씽"]],
+ dl:[]},
+{d:30,wk:4,ti:"최종 테스트 & 축하",em:"🏆",su:"한 달 여정의 마지막 날! 최종 테스트로 실력을 확인해봐요.",rr:[1,29],qn:12,final:true,
+ ph:[["Hello! Nice to meet you.","안녕하세요! 만나서 반가워요.","헬로! 나이스 투 밋 유"],
+ ["Where is the restroom?","화장실이 어디예요?","웨어 이즈 더 레스트룸"],
+ ["Can you take me to this address?","이 주소로 가주시겠어요?","캔 유 테이크 미 투 디스 어드레스"],
+ ["I'd like to make a reservation.","예약하고 싶어요.","아이드 라이크 투 메이크 어 레저베이션"],
+ ["Is there free Wi-Fi here?","여기 무료 와이파이 있나요?","이즈 데어 프리 와이파이 히어"],
+ ["Have a safe flight.","안전한 비행 되세요.","해브 어 세이프 플라잇"]],
+ dl:[]},
+];
+
+const DAYS = DAYS_RAW.map(d => ({
+  day: d.d, week: d.wk, title: d.ti, emoji: d.em, situ: d.su,
+  reviewRange: d.rr || null, qn: d.qn || 4, final: !!d.final,
+  phrases: d.ph.map(p => ({ en: p[0], ko: p[1], pron: p[2] })),
+  dialogue: (d.dl || []).map(l => ({ who: l[0], en: l[1], ko: l[2] }))
+}));
+
+const GLOBAL_POOL = DAYS.flatMap(d => d.phrases);
+
+const LEVELS = [
+  { min: 0, title: "여행 새싹 🌱" },
+  { min: 6, title: "기본기 탑재 🎒" },
+  { min: 12, title: "회화 워밍업 🔥" },
+  { min: 18, title: "여행 준비 완료 ✈️" },
+  { min: 24, title: "여행 영어 마스터 🏆" },
+];
+
+const BADGES = [
+  { id: "streak3", em: "🔥", nm: "불타는 시작", ds: "3일 연속 접속", check: s => s.streak >= 3 },
+  { id: "streak7", em: "📅", nm: "일주일 완주", ds: "7일 연속 접속", check: s => s.streak >= 7 },
+  { id: "week1", em: "🥉", nm: "첫 주 클리어", ds: "Day 7 복습 완료", check: s => s.completedDays.includes(7) },
+  { id: "week2", em: "🥈", nm: "절반의 성공", ds: "Day 14 복습 완료", check: s => s.completedDays.includes(14) },
+  { id: "week3", em: "🥇", nm: "거의 다 왔어요", ds: "Day 21 복습 완료", check: s => s.completedDays.includes(21) },
+  { id: "perfect", em: "🎯", nm: "퍼펙트 스코어", ds: "퀴즈 100점 달성", check: s => Object.values(s.quizBest||{}).some(v => v.pct === 100) },
+  { id: "complete", em: "🏆", nm: "여행 영어 마스터", ds: "30일 전 과정 완료", check: s => s.completedDays.includes(30) },
+];
+
+/* ============ 상태 관리 ============ */
+const STORE_KEY = "travelEnglishState_v1";
+function defaultState() {
+  return { completedDays: [], quizBest: {}, xp: 0, streak: 0, lastVisit: null, tripDate: null, lastDay: 1 };
+}
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORE_KEY);
+    if (!raw) return defaultState();
+    return Object.assign(defaultState(), JSON.parse(raw));
+  } catch (e) { return defaultState(); }
+}
+function saveState() { localStorage.setItem(STORE_KEY, JSON.stringify(state)); }
+
+let state = loadState();
+
+function todayStr(offsetDays) {
+  const d = new Date();
+  if (offsetDays) d.setDate(d.getDate() + offsetDays);
+  return d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + String(d.getDate()).padStart(2,"0");
+}
+function bumpStreak() {
+  const today = todayStr(0);
+  if (state.lastVisit === today) return;
+  if (state.lastVisit === todayStr(-1)) state.streak += 1;
+  else state.streak = 1;
+  state.lastVisit = today;
+  saveState();
+}
+bumpStreak();
+
+if (!state.tripDate) state.tripDate = todayStr(30);
+saveState();
+
+/* ============ 헬퍼 ============ */
+function toast(msg) {
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove("show"), 2400);
+}
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+function sample(arr, n) { return shuffle(arr).slice(0, Math.min(n, arr.length)); }
+function speak(text) {
+  if (!("speechSynthesis" in window)) { toast("이 브라우저는 음성 재생을 지원하지 않아요"); return; }
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = "en-US";
+  u.rate = 0.88;
+  speechSynthesis.speak(u);
+}
+function normalizeWords(s) {
+  return s.toLowerCase().replace(/[^a-z0-9' ]/g, "").split(/\s+/).filter(Boolean);
+}
+function similarity(said, target) {
+  const a = normalizeWords(said), b = normalizeWords(target);
+  if (!b.length) return 0;
+  let match = 0;
+  b.forEach(w => { if (a.includes(w)) match++; });
+  return Math.round(match / b.length * 100);
+}
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+function shadowSpeak(targetText, btn) {
+  if (!SR) { toast("이 브라우저는 음성 인식을 지원하지 않아요 😢"); return; }
+  const rec = new SR();
+  rec.lang = "en-US"; rec.interimResults = false; rec.maxAlternatives = 1;
+  const original = btn.textContent;
+  btn.textContent = "🎙️ 듣는 중...";
+  btn.disabled = true;
+  rec.onresult = e => {
+    const said = e.results[0][0].transcript;
+    const acc = similarity(said, targetText);
+    toast(`"${said}" → 정확도 ${acc}% ${acc>=70?"👍":"다시 해볼까요?"}`);
+  };
+  rec.onerror = () => toast("음성 인식에 실패했어요. 다시 시도해보세요.");
+  rec.onend = () => { btn.textContent = original; btn.disabled = false; };
+  rec.start();
+}
+function confettiBurst() {
+  const emojis = ["🎉","✨","🎊","⭐","🏆","🔥"];
+  for (let i = 0; i < 26; i++) {
+    const span = document.createElement("span");
+    span.className = "confetti-piece";
+    span.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+    span.style.left = Math.random()*100 + "vw";
+    span.style.fontSize = (14 + Math.random()*14) + "px";
+    span.style.animationDuration = (1.4 + Math.random()*1.2) + "s";
+    document.body.appendChild(span);
+    setTimeout(() => span.remove(), 3000);
+  }
+}
+
+/* ============ 탭 전환 ============ */
+function switchTab(id) {
+  document.querySelectorAll(".tab-btn").forEach((b,i) => b.classList.toggle("active", ["learn","progress","review"][i] === id));
+  document.querySelectorAll(".tab-content").forEach(c => c.classList.toggle("active", c.id === "tab-" + id));
+  if (id === "progress") renderProgress();
+  if (id === "review") renderReview();
+}
+
+/* ============ D-day ============ */
+const tripInput = document.getElementById("trip-date-input");
+tripInput.value = state.tripDate;
+function renderDday() {
+  const trip = new Date(state.tripDate + "T00:00:00");
+  const now = new Date(); now.setHours(0,0,0,0);
+  const diff = Math.round((trip - now) / 86400000);
+  const el = document.getElementById("dday-num");
+  el.textContent = diff > 0 ? "D-" + diff : diff === 0 ? "D-DAY 🎊" : "여행 중이거나 지났어요";
+}
+tripInput.onchange = () => { state.tripDate = tripInput.value; saveState(); renderDday(); };
+renderDday();
+document.getElementById("streak-num").textContent = state.streak;
+
+/* ============ 학습 탭 ============ */
+let currentDayIdx = Math.max(1, Math.min(30, state.lastDay || 1));
+let fcIndex = 0;
+
+function recommendedDay() {
+  if (!state.completedDays.length) return 1;
+  return Math.min(30, Math.max(...state.completedDays) + 1);
+}
+
+function goDay(delta) {
+  currentDayIdx = Math.max(1, Math.min(30, currentDayIdx + delta));
+  state.lastDay = currentDayIdx;
+  saveState();
+  fcIndex = 0;
+  renderLearn();
+}
+function jumpToDay(n) {
+  currentDayIdx = n;
+  state.lastDay = n;
+  saveState();
+  fcIndex = 0;
+  switchTab("learn");
+  renderLearn();
+}
+
+function renderLearn() {
+  const day = DAYS[currentDayIdx - 1];
+  document.getElementById("day-prev").disabled = currentDayIdx === 1;
+  document.getElementById("day-next").disabled = currentDayIdx === 30;
+  document.getElementById("day-label-main").textContent = `Day ${day.day} / 30`;
+  document.getElementById("day-label-week").textContent = `${day.week}주차`;
+  document.getElementById("recommend-badge").style.display = (day.day === recommendedDay() && !state.completedDays.includes(day.day)) ? "inline-block" : "none";
+  document.getElementById("day-title").textContent = day.title;
+  document.getElementById("day-icon").textContent = day.emoji;
+  document.getElementById("day-situ").textContent = day.situ;
+
+  renderFlashcard(day);
+  renderDialogue(day);
+  renderQuizStart(day);
+}
+
+function renderFlashcard(day) {
+  const p = day.phrases[fcIndex];
+  document.getElementById("fc-en").textContent = p.en;
+  document.getElementById("fc-pron").textContent = "발음: " + p.pron;
+  document.getElementById("fc-ko").textContent = p.ko;
+  document.getElementById("fc-counter").textContent = `${fcIndex+1} / ${day.phrases.length}`;
+  document.getElementById("fc-prev").disabled = fcIndex === 0;
+  document.getElementById("fc-next").disabled = fcIndex === day.phrases.length - 1;
+  document.getElementById("fc-mic-btn").disabled = !SR;
+  if (!SR) document.getElementById("fc-mic-btn").title = "이 브라우저는 지원하지 않아요";
+
+  const dots = document.getElementById("fc-dots");
+  dots.innerHTML = "";
+  day.phrases.forEach((_, i) => {
+    const dot = document.createElement("span");
+    dot.className = "fc-dot" + (i === fcIndex ? " active" : "");
+    dots.appendChild(dot);
+  });
+}
+function fcMove(delta) {
+  const day = DAYS[currentDayIdx - 1];
+  fcIndex = Math.max(0, Math.min(day.phrases.length - 1, fcIndex + delta));
+  renderFlashcard(day);
+}
+function speakCurrent() {
+  const day = DAYS[currentDayIdx - 1];
+  speak(day.phrases[fcIndex].en);
+}
+function shadowCurrent(e) {
+  const day = DAYS[currentDayIdx - 1];
+  shadowSpeak(day.phrases[fcIndex].en, document.getElementById("fc-mic-btn"));
+}
+
+function renderDialogue(day) {
+  const card = document.getElementById("dialogue-card");
+  const body = document.getElementById("dialogue-body");
+  if (!day.dialogue.length) { card.style.display = "none"; return; }
+  card.style.display = "block";
+  body.innerHTML = "";
+  day.dialogue.forEach(line => {
+    const row = document.createElement("div");
+    row.className = "dlg-line";
+    row.innerHTML = `
+      <div class="dlg-who ${line.who}">${line.who}</div>
+      <div class="dlg-body">
+        <div class="dlg-en">${line.en}</div>
+        <div class="dlg-ko">${line.ko}</div>
+      </div>
+      <button class="dlg-speak" title="듣기">🔊</button>`;
+    row.querySelector(".dlg-speak").onclick = () => speak(line.en);
+    body.appendChild(row);
+  });
+}
+
+/* ── 퀴즈 (자동 생성) ── */
+function buildQuiz(day) {
+  const sourcePool = day.reviewRange
+    ? DAYS.filter(d => d.day >= day.reviewRange[0] && d.day <= day.reviewRange[1]).flatMap(d => d.phrases)
+    : day.phrases;
+  const targets = sample(sourcePool, day.qn);
+  return targets.map(t => {
+    const distractors = sample(GLOBAL_POOL.filter(p => p.ko !== t.ko), 3).map(p => p.ko);
+    return { en: t.en, correct: t.ko, options: shuffle([t.ko, ...distractors]) };
+  });
+}
+
+function renderQuizStart(day) {
+  const body = document.getElementById("quiz-body");
+  document.getElementById("quiz-card-sub").textContent = `${day.qn}문제 중 70% 이상 맞히면 학습 완료!`;
+  const best = state.quizBest[day.day];
+  body.innerHTML = `
+    ${state.completedDays.includes(day.day) ? `<div class="empty-hint" style="padding-top:0">✅ 완료했어요! (최고 점수: ${best ? best.score+"/"+best.qn : "-"})</div>` : ""}
+    <button class="primary-btn" id="quiz-start-btn">${state.completedDays.includes(day.day) ? "다시 도전하기 🔁" : "퀴즈 시작하기 🚀"}</button>`;
+  document.getElementById("quiz-start-btn").onclick = () => runQuiz(day, "quiz-body", () => renderQuizStart(day));
+}
+
+function runQuiz(day, containerId, onExitToStart) {
+  const container = document.getElementById(containerId);
+  const questions = buildQuiz(day);
+  let qi = 0, score = 0;
+
+  function renderQuestion() {
+    const q = questions[qi];
+    container.innerHTML = `
+      <div class="quiz-progress">${questions.map((_,i)=>`<div class="seg ${i<qi?'done':i===qi?'cur':''}"></div>`).join("")}</div>
+      <div class="quiz-sub">${qi+1} / ${questions.length}문제 · 이 문장의 뜻은 무엇일까요?</div>
+      <div class="quiz-q">"${q.en}"</div>
+      <div id="quiz-opts" style="margin-top:14px"></div>`;
+    const opts = document.getElementById("quiz-opts");
+    q.options.forEach(opt => {
+      const b = document.createElement("button");
+      b.className = "quiz-opt";
+      b.textContent = opt;
+      b.onclick = () => {
+        document.querySelectorAll(".quiz-opt").forEach(o => o.disabled = true);
+        const isCorrect = opt === q.correct;
+        b.classList.add(isCorrect ? "correct" : "wrong");
+        if (!isCorrect) {
+          document.querySelectorAll(".quiz-opt").forEach(o => { if (o.textContent === q.correct) o.classList.add("correct"); });
+        } else score++;
+        setTimeout(() => { qi++; qi < questions.length ? renderQuestion() : finish(); }, 850);
+      };
+      opts.appendChild(b);
+    });
+  }
+
+  function finish() {
+    const pct = Math.round(score / questions.length * 100);
+    const pass = pct >= 70;
+    const prevBest = state.quizBest[day.day];
+    if (!prevBest || score > prevBest.score) state.quizBest[day.day] = { score, qn: questions.length, pct };
+    state.xp += 5;
+    const firstComplete = pass && !state.completedDays.includes(day.day);
+    if (firstComplete) {
+      state.completedDays.push(day.day);
+      state.xp += 25;
+    }
+    saveState();
+
+    if (firstComplete) {
+      confettiBurst();
+      const newBadges = BADGES.filter(b => b.check(state));
+      toast(pct === 100 ? "완벽해요! 100점 🎯" : "학습 완료! " + day.day + "일차 클리어 🎉");
+    }
+
+    container.innerHTML = `
+      <div class="quiz-result">
+        <div class="score" style="color:${pass?'var(--green)':'var(--red)'}">${score} / ${questions.length}</div>
+        <div class="msg">${pass ? "훌륭해요! 오늘 학습을 완료했어요 🎉" : "조금 더 복습해볼까요? 70% 이상이면 완료돼요."}</div>
+        ${pass && day.day < 30 ? `<button class="primary-btn" id="next-day-btn">다음 날 학습하기 →</button>` : ""}
+        <button class="ghost-btn" id="retry-btn">${pass ? "다시 풀어보기" : "다시 도전하기"}</button>
+      </div>`;
+    if (pass && day.day < 30) document.getElementById("next-day-btn").onclick = () => jumpToDay(day.day + 1);
+    document.getElementById("retry-btn").onclick = () => runQuiz(day, containerId, onExitToStart);
+
+    document.getElementById("streak-num").textContent = state.streak;
+  }
+
+  renderQuestion();
+}
+
+/* ============ 진도 탭 ============ */
+function renderProgress() {
+  const done = state.completedDays.length;
+  const pct = Math.round(done / 30 * 100);
+  const circ = 201;
+  document.getElementById("progress-ring").style.strokeDashoffset = circ - circ * pct / 100;
+  document.getElementById("progress-pct").textContent = pct + "%";
+  document.getElementById("progress-days").textContent = `${done} / 30일 완료`;
+
+  let level = LEVELS[0];
+  LEVELS.forEach(l => { if (done >= l.min) level = l; });
+  document.getElementById("level-title").textContent = level.title;
+
+  document.getElementById("stat-xp").textContent = state.xp;
+  document.getElementById("stat-streak").textContent = state.streak;
+  const earnedBadges = BADGES.filter(b => b.check(state));
+  document.getElementById("stat-badges").textContent = `${earnedBadges.length} / ${BADGES.length}`;
+
+  const rec = recommendedDay();
+  const cal = document.getElementById("cal-grid");
+  cal.innerHTML = "";
+  DAYS.forEach(d => {
+    const cell = document.createElement("div");
+    const isDone = state.completedDays.includes(d.day);
+    cell.className = "cal-cell" + (isDone ? " done" : "") + (d.day === rec && !isDone ? " current" : "");
+    cell.innerHTML = `<div>${d.emoji}</div><div class="num">${d.day}</div>`;
+    cell.onclick = () => jumpToDay(d.day);
+    cal.appendChild(cell);
+  });
+
+  const bg = document.getElementById("badge-grid");
+  bg.innerHTML = "";
+  BADGES.forEach(b => {
+    const earned = b.check(state);
+    const item = document.createElement("div");
+    item.className = "badge-item" + (earned ? " earned" : "");
+    item.innerHTML = `<div class="em">${b.em}</div><div><div class="nm">${b.nm}</div><div class="ds">${b.ds}</div></div>`;
+    bg.appendChild(item);
+  });
+}
+
+function resetProgress() {
+  if (!confirm("정말 모든 학습 진행 상황을 초기화할까요? 되돌릴 수 없어요.")) return;
+  const trip = state.tripDate;
+  state = defaultState();
+  state.tripDate = trip;
+  saveState();
+  bumpStreak();
+  currentDayIdx = 1;
+  fcIndex = 0;
+  renderLearn();
+  renderProgress();
+  toast("초기화됐어요. 처음부터 다시 시작해봐요!");
+}
+
+/* ============ 복습 탭 ============ */
+function renderReview() {
+  const body = document.getElementById("review-quiz-body");
+  const completed = state.completedDays;
+  if (!completed.length) {
+    body.innerHTML = `<div class="empty-hint">아직 완료한 날이 없어요.<br>먼저 <b>오늘의 학습</b> 탭에서 Day 1을 시작해보세요! 🚀</div>`;
+  } else {
+    body.innerHTML = `<button class="primary-btn" id="review-quiz-btn">복습 퀴즈 시작 (10문제) 🔁</button>`;
+    document.getElementById("review-quiz-btn").onclick = () => {
+      const pool = DAYS.filter(d => completed.includes(d.day)).flatMap(d => d.phrases);
+      const fakeDay = { day: "review", qn: Math.min(10, pool.length), reviewRange: null };
+      const questions = sample(pool, fakeDay.qn).map(t => {
+        const distractors = sample(GLOBAL_POOL.filter(p => p.ko !== t.ko), 3).map(p => p.ko);
+        return { en: t.en, correct: t.ko, options: shuffle([t.ko, ...distractors]) };
+      });
+      runReviewQuiz(questions);
+    };
+  }
+
+  const listEl = document.getElementById("review-list");
+  const rows = DAYS.filter(d => completed.includes(d.day)).flatMap(d => d.phrases.map(p => ({...p, day: d.day})));
+  if (!rows.length) { listEl.innerHTML = ""; return; }
+  listEl.innerHTML = "";
+  rows.forEach(p => {
+    const row = document.createElement("div");
+    row.className = "review-item";
+    row.innerHTML = `
+      <button class="speak-btn">🔊</button>
+      <div class="txt"><div class="en">${p.en}</div><div class="ko">${p.ko}</div></div>
+      <div class="day-tag">Day ${p.day}</div>`;
+    row.querySelector(".speak-btn").onclick = () => speak(p.en);
+    listEl.appendChild(row);
+  });
+}
+
+function runReviewQuiz(questions) {
+  const container = document.getElementById("review-quiz-body");
+  let qi = 0, score = 0;
+  function renderQuestion() {
+    const q = questions[qi];
+    container.innerHTML = `
+      <div class="quiz-progress">${questions.map((_,i)=>`<div class="seg ${i<qi?'done':i===qi?'cur':''}"></div>`).join("")}</div>
+      <div class="quiz-sub">${qi+1} / ${questions.length}문제</div>
+      <div class="quiz-q">"${q.en}"</div>
+      <div id="rq-opts" style="margin-top:14px"></div>`;
+    const opts = document.getElementById("rq-opts");
+    q.options.forEach(opt => {
+      const b = document.createElement("button");
+      b.className = "quiz-opt";
+      b.textContent = opt;
+      b.onclick = () => {
+        document.querySelectorAll("#rq-opts .quiz-opt").forEach(o => o.disabled = true);
+        const isCorrect = opt === q.correct;
+        b.classList.add(isCorrect ? "correct" : "wrong");
+        if (!isCorrect) document.querySelectorAll("#rq-opts .quiz-opt").forEach(o => { if (o.textContent === q.correct) o.classList.add("correct"); });
+        else score++;
+        setTimeout(() => { qi++; qi < questions.length ? renderQuestion() : finish(); }, 850);
+      };
+      opts.appendChild(b);
+    });
+  }
+  function finish() {
+    state.xp += 8;
+    saveState();
+    container.innerHTML = `
+      <div class="quiz-result">
+        <div class="score" style="color:var(--purple)">${score} / ${questions.length}</div>
+        <div class="msg">복습 완료! 계속 반복하면 오래 기억돼요 🧠</div>
+        <button class="ghost-btn" id="rq-retry">다시 풀어보기</button>
+      </div>`;
+    document.getElementById("rq-retry").onclick = () => renderReview();
+  }
+  renderQuestion();
+}
+
+/* ============ 초기 렌더 ============ */
+renderLearn();
+</script>
+
+</body>
+</html>
