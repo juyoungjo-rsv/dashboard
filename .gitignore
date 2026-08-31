@@ -1,0 +1,19 @@
+# dependencies
+/node_modules
+
+# next.js build output
+/.next/
+/out/
+
+# local env files
+.env
+.env.local
+.env*.local
+
+# runtime data — sqlite database + uploaded diary photos
+/data/
+
+# misc
+.DS_Store
+*.log
+npm-debug.log*
