@@ -11,6 +11,6 @@ export async function GET() {
     throw err;
   }
 
-  const state = listCharacterState(user.id);
+  const state = await listCharacterState(user.id);
   return NextResponse.json(state);
 }

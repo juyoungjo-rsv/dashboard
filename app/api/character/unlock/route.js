@@ -24,11 +24,11 @@ export async function POST(request) {
   }
 
   try {
-    unlockItem(user.id, itemId);
+    await unlockItem(user.id, itemId);
   } catch (err) {
     const message = ERROR_MESSAGES[err.message] || '아이템을 잠금해제할 수 없어요.';
     return NextResponse.json({ error: message }, { status: 400 });
   }
 
-  return NextResponse.json(listCharacterState(user.id));
+  return NextResponse.json(await listCharacterState(user.id));
 }

@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
-import { getDb } from '../../../../lib/db';
+import { db } from '../../../../lib/db';
 import { setSessionCookie } from '../../../../lib/auth';
 
 export async function POST(request) {
@@ -18,8 +18,7 @@ export async function POST(request) {
     return NextResponse.json({ error: '아이디와 비밀번호를 입력해주세요.' }, { status: 400 });
   }
 
-  const db = getDb();
-  const user = db.prepare('SELECT * FROM users WHERE username = ?').get(username);
+  const user = await db.get('SELECT * FROM users WHERE username = ?', [username]);
 
   if (!user || !bcrypt.compareSync(password, user.password_hash)) {
     return NextResponse.json({ error: '아이디 또는 비밀번호가 올바르지 않습니다.' }, { status: 401 });

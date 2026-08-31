@@ -23,11 +23,11 @@ export async function POST(request) {
   }
 
   try {
-    equipItem(user.id, itemId);
+    await equipItem(user.id, itemId);
   } catch (err) {
     const message = ERROR_MESSAGES[err.message] || '아이템을 착용할 수 없어요.';
     return NextResponse.json({ error: message }, { status: 400 });
   }
 
-  return NextResponse.json(listCharacterState(user.id));
+  return NextResponse.json(await listCharacterState(user.id));
 }

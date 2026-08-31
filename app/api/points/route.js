@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-import { getDb } from '../../../lib/db';
 import { requireUser, UnauthorizedError } from '../../../lib/auth';
 import { getBalance, getStreak, getRecentLedger, POINTS } from '../../../lib/points';
 
@@ -12,10 +11,13 @@ export async function GET() {
     throw err;
   }
 
-  const db = getDb();
-  const balance = getBalance(db, user.id);
-  const streak = getStreak(db, user.id);
-  const ledger = getRecentLedger(db, user.id, 20).map((row) => ({
+  const [balance, streak, ledgerRows] = await Promise.all([
+    getBalance(user.id),
+    getStreak(user.id),
+    getRecentLedger(user.id, 20),
+  ]);
+
+  const ledger = ledgerRows.map((row) => ({
     id: row.id,
     delta: row.delta,
     reason: row.reason,
