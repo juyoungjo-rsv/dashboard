@@ -27,6 +27,8 @@
   .content {
     position: relative;
     overflow: hidden;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
   }
 
   .track {
@@ -43,11 +45,14 @@
   }
 
   .caption {
+    display: inline-block;
+    max-width: 100%;
+    white-space: nowrap;
     color: #fff;
     font-weight: 700;
     font-size: 130px;
     line-height: 1.4;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.02em;
   }
 </style>
 </head>
@@ -72,7 +77,7 @@
   ];
 
   const ITEM_MS = 2600;
-  const SLIDE_MS = 550;
+  const SLIDE_MS = 2000;
   const SLIDE_EASE = 'cubic-bezier(0.65, 0, 0.35, 1)';
 
   const track = document.getElementById('track');
@@ -89,6 +94,20 @@
   items.forEach(el => { itemHeight = Math.max(itemHeight, el.getBoundingClientRect().height); });
   items.forEach(el => { el.style.height = itemHeight + 'px'; });
   content.style.height = itemHeight + 'px';
+
+  function fitCaptions() {
+    const available = content.clientWidth;
+    items.forEach(el => {
+      const caption = el.querySelector('.caption');
+      caption.style.fontSize = '';
+      const base = parseFloat(getComputedStyle(caption).fontSize);
+      const natural = caption.scrollWidth;
+      if (natural > available) {
+        caption.style.fontSize = (base * available / natural) + 'px';
+      }
+    });
+  }
+  fitCaptions();
 
   let index = 0;
 
