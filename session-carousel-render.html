@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Caption Carousel (Render)</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 4320px;
+    height: 1200px;
+    background: #000;         /* mp4 렌더용 — 검정 배경 (Screen 블렌드로 지우는 용도) */
+    overflow: hidden;
+  }
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+
+  .stage {
+    position: relative;
+    width: 3900px;
+  }
+
+  .content {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .track {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 16px 0;
+  }
+
+  .caption {
+    color: #fff;
+    font-weight: 700;
+    font-size: 130px;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+  }
+</style>
+</head>
+<body>
+
+<div class="stage">
+  <div class="content">
+    <div class="track" id="track"></div>
+  </div>
+</div>
+
+<script>
+  // 자막 (미리보기 렌더용 — 실제 목록은 session-carousel-demo.html과 동일하게 유지)
+  const CAPTIONS = [
+    "주영님의 브랜드는 어떤 모습으로 기억되고 있나요?",
+    "은미님, 오늘 여기 오기 전에는 무엇을 하고 계셨나요?",
+    "지현님, 유명한 브랜드와 좋은 브랜드는 무엇이 다를까요?",
+    "채언님, 마음속에 최애 브랜드 하나쯤 있지 않나요?",
+    "지영님의 브랜드는 고객에게 어떤 감정을 남기고 있나요?",
+    "동욱님, 오늘 가장 먼저 눈에 들어온 것은 무엇이었나요?",
+    "상철님, 브랜드의 진짜 매력은 어디에서 드러날까요?",
+  ];
+
+  const ITEM_MS = 2600;
+  const SLIDE_MS = 550;
+  const SLIDE_EASE = 'cubic-bezier(0.65, 0, 0.35, 1)';
+
+  const track = document.getElementById('track');
+  const content = document.querySelector('.content');
+
+  const renderList = [...CAPTIONS, CAPTIONS[0]];
+  track.innerHTML = renderList.map(text => `
+    <div class="item"><div class="caption">${text}</div></div>
+  `).join('');
+
+  const items = track.querySelectorAll('.item');
+
+  let itemHeight = 0;
+  items.forEach(el => { itemHeight = Math.max(itemHeight, el.getBoundingClientRect().height); });
+  items.forEach(el => { el.style.height = itemHeight + 'px'; });
+  content.style.height = itemHeight + 'px';
+
+  let index = 0;
+
+  function goNext() {
+    index++;
+    track.style.transition = `transform ${SLIDE_MS}ms ${SLIDE_EASE}`;
+    track.style.transform = `translateY(-${index * itemHeight}px)`;
+
+    if (index === CAPTIONS.length) {
+      setTimeout(() => {
+        track.style.transition = 'none';
+        track.style.transform = 'translateY(0px)';
+        index = 0;
+      }, SLIDE_MS);
+    }
+  }
+
+  setInterval(goNext, ITEM_MS + SLIDE_MS);
+</script>
+
+</body>
+</html>
