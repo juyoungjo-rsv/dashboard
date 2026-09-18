@@ -54,11 +54,13 @@
     line-height: 1.4;
     letter-spacing: -0.02em;
   }
+
+  .stage { visibility: hidden; }   /* 폰트 로드 끝나면 JS가 보여줌 */
 </style>
 </head>
 <body>
 
-<div class="stage">
+<div class="stage" id="stage">
   <div class="content">
     <div class="track" id="track"></div>
   </div>
@@ -80,20 +82,12 @@
   const SLIDE_MS = 2000;
   const SLIDE_EASE = 'cubic-bezier(0.65, 0, 0.35, 1)';
 
+  const stage = document.getElementById('stage');
   const track = document.getElementById('track');
   const content = document.querySelector('.content');
-
-  const renderList = [...CAPTIONS, CAPTIONS[0]];
-  track.innerHTML = renderList.map(text => `
-    <div class="item"><div class="caption">${text}</div></div>
-  `).join('');
-
-  const items = track.querySelectorAll('.item');
-
   let itemHeight = 0;
-  items.forEach(el => { itemHeight = Math.max(itemHeight, el.getBoundingClientRect().height); });
-  items.forEach(el => { el.style.height = itemHeight + 'px'; });
-  content.style.height = itemHeight + 'px';
+  let index = 0;
+  let items;
 
   function fitCaptions() {
     const available = content.clientWidth;
@@ -107,9 +101,6 @@
       }
     });
   }
-  fitCaptions();
-
-  let index = 0;
 
   function goNext() {
     index++;
@@ -125,7 +116,23 @@
     }
   }
 
-  setInterval(goNext, ITEM_MS + SLIDE_MS);
+  document.fonts.ready.then(() => {
+    const renderList = [...CAPTIONS, CAPTIONS[0]];
+    track.innerHTML = renderList.map(text => `
+      <div class="item"><div class="caption">${text}</div></div>
+    `).join('');
+
+    items = track.querySelectorAll('.item');
+    items.forEach(el => { itemHeight = Math.max(itemHeight, el.getBoundingClientRect().height); });
+    items.forEach(el => { el.style.height = itemHeight + 'px'; });
+    content.style.height = itemHeight + 'px';
+
+    fitCaptions();
+
+    stage.style.visibility = 'visible';
+    document.body.dataset.ready = 'true';   // 녹화 스크립트가 이 시점부터 캡처를 시작하는 데 사용
+    setInterval(goNext, ITEM_MS + SLIDE_MS);
+  });
 </script>
 
 </body>

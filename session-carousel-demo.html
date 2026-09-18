@@ -61,11 +61,13 @@
   @media (max-width: 640px) {
     .caption { font-size: 20px; }
   }
+
+  .stage { visibility: hidden; }   /* 폰트 로드 끝나면 JS가 보여줌 — 시스템 폰트로 잠깐 보였다 바뀌는 것 방지 */
 </style>
 </head>
 <body>
 
-<div class="stage">
+<div class="stage" id="stage">
   <div class="content">
     <div class="track" id="track"></div>
   </div>
@@ -129,24 +131,13 @@
   const SLIDE_MS = 2000;      // 위로 슬라이드하는 데 걸리는 시간
   const SLIDE_EASE = 'cubic-bezier(0.65, 0, 0.35, 1)';
 
+  const stage = document.getElementById('stage');
   const track = document.getElementById('track');
   const content = document.querySelector('.content');
-
-  // 마지막에 첫 캡션을 복제해서 붙여야 "끊김 없이" 순환됨
-  const renderList = [...CAPTIONS, CAPTIONS[0]];
-  track.innerHTML = renderList.map(text => `
-    <div class="item"><div class="caption">${text}</div></div>
-  `).join('');
-
-  const items = track.querySelectorAll('.item');
-
-  // 모든 캡션은 한 줄 기준으로 박스 높이를 통일한다.
   let itemHeight = 0;
-  items.forEach(el => { itemHeight = Math.max(itemHeight, el.getBoundingClientRect().height); });
-  items.forEach(el => { el.style.height = itemHeight + 'px'; });
-  content.style.height = itemHeight + 'px';
+  let index = 0;
+  let items;
 
-  // 컨테이너보다 넓은 캡션은 한 줄에 맞게 글자 크기를 줄인다.
   function fitCaptions() {
     const available = content.clientWidth;
     items.forEach(el => {
@@ -159,10 +150,6 @@
       }
     });
   }
-  fitCaptions();
-  window.addEventListener('resize', fitCaptions);
-
-  let index = 0;
 
   function goNext() {
     index++;
@@ -179,7 +166,28 @@
     }
   }
 
-  setInterval(goNext, ITEM_MS + SLIDE_MS);
+  // 폰트가 완전히 로드된 뒤에 크기를 재고 화면에 보여준다 —
+  // 그 전에 재면 시스템 폰트 기준으로 잘못 잰 크기가 그대로 굳어버림.
+  document.fonts.ready.then(() => {
+    // 마지막에 첫 캡션을 복제해서 붙여야 "끊김 없이" 순환됨
+    const renderList = [...CAPTIONS, CAPTIONS[0]];
+    track.innerHTML = renderList.map(text => `
+      <div class="item"><div class="caption">${text}</div></div>
+    `).join('');
+
+    items = track.querySelectorAll('.item');
+
+    // 모든 캡션은 한 줄 기준으로 박스 높이를 통일한다.
+    items.forEach(el => { itemHeight = Math.max(itemHeight, el.getBoundingClientRect().height); });
+    items.forEach(el => { el.style.height = itemHeight + 'px'; });
+    content.style.height = itemHeight + 'px';
+
+    fitCaptions();
+    window.addEventListener('resize', fitCaptions);
+
+    stage.style.visibility = 'visible';
+    setInterval(goNext, ITEM_MS + SLIDE_MS);
+  });
 </script>
 
 </body>
