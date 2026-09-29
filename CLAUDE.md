@@ -8,4 +8,4 @@
 인스타그램 콘텐츠(카드뉴스 문구, 캡션) 작성·검수 요청을 받으면 아래 두 파일을 기준으로 작성한다.
 
 - 작성 가이드: @instagram/GUIDE.md
-- 원문 예시 7개: @instagram/EXAMPLES.md
+- 원문 예시 8개 (8번 YES24가 사용자 최종본, 최우선 기준): @instagram/EXAMPLES.md
