@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STAGE X 카드뉴스 생성기</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .tab-btn {
+            padding: 12px 20px;
+            background: none;
+            border: none;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            color: #999;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active {
+            color: #000;
+            border-bottom-color: #000;
+        }
+
+        .content {
+            display: flex;
+            gap: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            overflow: hidden;
+            min-height: 700px;
+        }
+
+        .panel {
+            flex: 0 0 400px;
+            padding: 30px;
+            border-right: 1px solid #eee;
+            overflow-y: auto;
+            background: #fafafa;
+        }
+
+        .preview {
+            flex: 1;
+            padding: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+            overflow: auto;
+        }
+
+        .preview-canvas {
+            border: 1px solid #ddd;
+            background: #fff;
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        input[type="text"],
+        input[type="file"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: 'Pretendard', sans-serif;
+            font-size: 14px;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            cursor: pointer;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        button {
+            background: #000;
+            color: #fff;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #333;
+        }
+
+        button.secondary {
+            background: #666;
+            margin-left: 8px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: flex;
+        }
+
+        .info-box {
+            background: #e8f4f8;
+            border-left: 4px solid #0099cc;
+            padding: 12px;
+            margin-bottom: 15px;
+            font-size: 13px;
+            border-radius: 4px;
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 12px;
+            margin-bottom: 15px;
+            font-size: 13px;
+            border-radius: 4px;
+        }
+
+        .error-box {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 12px;
+            margin-bottom: 15px;
+            font-size: 13px;
+            border-radius: 4px;
+        }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .slider-container input[type="range"] {
+            flex: 1;
+        }
+
+        .slider-value {
+            min-width: 50px;
+            text-align: right;
+            font-weight: 600;
+        }
+
+        .image-list {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+        }
+
+        .image-item {
+            padding: 10px;
+            background: #f9f9f9;
+            margin-bottom: 8px;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+        }
+
+        .image-item button {
+            padding: 4px 8px;
+            font-size: 12px;
+        }
+
+        .caption-display {
+            background: #f0f0f0;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            font-size: 13px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            word-break: break-word;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .copy-btn {
+            width: 100%;
+        }
+
+        .upload-logo {
+            border: 2px dashed #ddd;
+            padding: 20px;
+            text-align: center;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .upload-logo:hover {
+            border-color: #000;
+            background: #f9f9f9;
+        }
+
+        .upload-logo.loaded {
+            background: #e8f4f8;
+            border-color: #0099cc;
+        }
+
+        .upload-logo img {
+            max-width: 100%;
+            max-height: 80px;
+        }
+
+        .text-overflow-warning {
+            color: #dc3545;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 1400px) {
+            .content {
+                flex-direction: column;
+            }
+
+            .panel {
+                flex: 1;
+                border-right: none;
+                border-bottom: 1px solid #eee;
+            }
+
+            .preview {
+                flex: 1;
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>STAGE X 인스타그램 카드뉴스 생성기</h1>
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="thumbnail">썸네일 생성기</button>
+                <button class="tab-btn" data-tab="inner">내지 생성기</button>
+                <button class="tab-btn" data-tab="caption">캡션 생성기</button>
+            </div>
+        </header>
+
+        <div class="content">
+            <!-- THUMBNAIL TAB -->
+            <div class="tab-content active" id="tab-thumbnail">
+                <div class="panel">
+                    <div class="info-box">
+                        출력 크기: 1080 × 1350px | 메인 텍스트는 자동으로 줄바꿈되지 않습니다.
+                    </div>
+
+                    <div class="form-group">
+                        <label>로고 업로드 (PNG)</label>
+                        <div class="upload-logo" id="logoUploadArea">
+                            <input type="file" id="logoInput" accept="image/png" style="display:none;">
+                            <div id="logoPlaceholder">클릭하여 로고 PNG 선택</div>
+                            <img id="logoPreview" style="display:none;">
+                        </div>
+                        <div class="info-box" style="margin-top: 10px;">로고는 모든 카드에 표시됩니다. (439px, 33px)</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>배경 이미지</label>
+                        <input type="file" id="thumbnailImage" accept="image/jpeg,image/png,image/webp">
+                        <div class="info-box" style="margin-top: 8px;">JPG, PNG, WEBP 지원. 마우스로 드래그하여 위치 조정 가능합니다.</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>이미지 위치 조정</label>
+                        <div class="slider-container">
+                            <span>X:</span>
+                            <input type="range" id="thumbImageX" min="-500" max="500" value="0">
+                            <span class="slider-value" id="thumbImageXValue">0px</span>
+                        </div>
+                        <div class="slider-container" style="margin-top: 8px;">
+                            <span>Y:</span>
+                            <input type="range" id="thumbImageY" min="-500" max="500" value="0">
+                            <span class="slider-value" id="thumbImageYValue">0px</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>이미지 확대·축소</label>
+                        <div class="slider-container">
+                            <span>Scale:</span>
+                            <input type="range" id="thumbImageScale" min="0.5" max="3" step="0.1" value="1">
+                            <span class="slider-value" id="thumbImageScaleValue">100%</span>
+                        </div>
+                    </div>
+
+                    <button onclick="resetThumbnailImage()" style="width: 100%;">이미지 위치/확대 초기화</button>
+
+                    <div class="form-group">
+                        <label>공간 선택</label>
+                        <select id="spaceSelect">
+                            <option value="">-- 공간을 선택해주세요 --</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>메인 텍스트</label>
+                        <input type="text" id="mainText" placeholder="2줄 이상을 Enter로 나누어 입력" maxlength="100">
+                        <div class="text-overflow-warning" id="mainTextWarning"></div>
+                    </div>
+
+                    <div class="button-group">
+                        <button onclick="downloadThumbnail()" style="flex: 1;">PNG 다운로드</button>
+                    </div>
+                </div>
+
+                <div class="preview">
+                    <canvas id="thumbnailCanvas" class="preview-canvas" width="1080" height="1350"></canvas>
+                </div>
+            </div>
+
+            <!-- INNER PAGES TAB -->
+            <div class="tab-content" id="tab-inner">
+                <div class="panel">
+                    <div class="info-box">
+                        출력 크기: 1080 × 1350px | 각 내지는 독립적으로 편집됩니다.
+                    </div>
+
+                    <div class="form-group">
+                        <label>내지 이미지 추가</label>
+                        <input type="file" id="innerImages" accept="image/jpeg,image/png,image/webp" multiple>
+                        <div class="info-box" style="margin-top: 8px;">여러 이미지를 한 번에 선택할 수 있습니다.</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>추가된 내지</label>
+                        <div class="image-list" id="innerImageList">
+                            <div style="color: #999; text-align: center; padding: 20px;">이미지가 없습니다.</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="innerEditGroup" style="display: none;">
+                        <label>선택된 내지 편집 (내지 <span id="currentInnerIndex">-</span>)</label>
+
+                        <label style="margin-top: 15px;">이미지 위치 조정</label>
+                        <div class="slider-container">
+                            <span>X:</span>
+                            <input type="range" id="innerImageX" min="-500" max="500" value="0">
+                            <span class="slider-value" id="innerImageXValue">0px</span>
+                        </div>
+                        <div class="slider-container" style="margin-top: 8px;">
+                            <span>Y:</span>
+                            <input type="range" id="innerImageY" min="-500" max="500" value="0">
+                            <span class="slider-value" id="innerImageYValue">0px</span>
+                        </div>
+
+                        <label style="margin-top: 15px;">이미지 확대·축소</label>
+                        <div class="slider-container">
+                            <span>Scale:</span>
+                            <input type="range" id="innerImageScale" min="0.5" max="3" step="0.1" value="1">
+                            <span class="slider-value" id="innerImageScaleValue">100%</span>
+                        </div>
+
+                        <button onclick="resetInnerImage()" style="width: 100%; margin-top: 15px;">이 내지 초기화</button>
+                    </div>
+
+                    <div class="button-group" style="margin-top: 20px;">
+                        <button onclick="downloadAllInner()" style="flex: 1;">전체 내지 ZIP 다운로드</button>
+                    </div>
+                </div>
+
+                <div class="preview">
+                    <canvas id="innerCanvas" class="preview-canvas" width="1080" height="1350"></canvas>
+                </div>
+            </div>
+
+            <!-- CAPTION TAB -->
+            <div class="tab-content" id="tab-caption">
+                <div class="panel">
+                    <div class="info-box">
+                        공간별 기본 캡션을 불러오거나 추가 문구를 작성합니다.
+                    </div>
+
+                    <div class="form-group">
+                        <label>공간 선택</label>
+                        <select id="captionSpaceSelect">
+                            <option value="">-- 공간을 선택해주세요 --</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" id="baseCaptionGroup" style="display: none;">
+                        <label>기본 캡션 (읽기 전용)</label>
+                        <div class="caption-display" id="baseCaptionDisplay"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>추가 문구</label>
+                        <textarea id="additionalCaption" placeholder="추가로 작성할 문구를 입력하세요."></textarea>
+                    </div>
+
+                    <div class="form-group" id="fullCaptionGroup" style="display: none;">
+                        <label>최종 캡션 (전체 복사용)</label>
+                        <div class="caption-display" id="fullCaptionDisplay"></div>
+                        <button class="copy-btn" onclick="copyCaption()">클립보드에 복사</button>
+                    </div>
+
+                    <hr style="margin: 30px 0; border: 1px solid #ddd;">
+
+                    <div style="font-size: 13px; color: #666;">
+                        <strong>관리자 영역 (향후 데이터베이스 연동)</strong>
+                        <p style="margin-top: 10px;">현재 버전: 로컬 데이터만 사용</p>
+                    </div>
+                </div>
+
+                <div class="preview">
+                    <div style="padding: 30px; text-align: center; color: #999;">
+                        캡션 미리보기는 오른쪽 패널에서 확인해주세요.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Space data
+        const SPACES = [
+            // 성수 공간
+            { name: '스테이지 엑스 성수 17(@LCDC)', bg: '#BAD433', text: '#000000', group: '성수' },
+            { name: '스테이지 엑스 성수 52', bg: '#BAD433', text: '#000000', group: '성수' },
+            { name: '스테이지 엑스 성수 차봇', bg: '#BAD433', text: '#000000', group: '성수' },
+            { name: '스테이지 엑스 T Factory 성수', bg: '#BAD433', text: '#000000', group: '성수' },
+            { name: '스테이지 엑스 성수 403', bg: '#BAD433', text: '#000000', group: '성수' },
+            // 익선 공간
+            { name: '스테이지 엑스 익선 A동', bg: '#005AD8', text: '#000000', group: '익선' },
+            // 도쿄 공간
+            { name: '스테이지 엑스 도쿄 밀 갤러리', bg: '#33D4D4', text: '#000000', group: '도쿄' },
+            { name: '스테이지 엑스 도쿄 더쿠', bg: '#33D4D4', text: '#000000', group: '도쿄' },
+            // 제휴 공간
+            { name: '[제휴] 성수 틸 테이블', bg: '#000000', text: '#FFFFFF', group: '제휴' },
+            { name: '[제휴] 성수 카펜크레', bg: '#000000', text: '#FFFFFF', group: '제휴' },
+            { name: '[제휴] 압구정 요새 도산', bg: '#000000', text: '#FFFFFF', group: '제휴' },
+            { name: '[제휴] 성수 더 가베', bg: '#000000', text: '#FFFFFF', group: '제휴' },
+            { name: '[제휴] 무신사 스페이스 서울숲', bg: '#000000', text: '#FFFFFF', group: '제휴' },
+            { name: '[제휴] 코엑스', bg: '#000000', text: '#FFFFFF', group: '제휴' },
+            { name: '[제휴] 세종문화회관', bg: '#000000', text: '#FFFFFF', group: '제휴' },
+            { name: '[제휴] 홍대 스퀘어', bg: '#000000', text: '#FFFFFF', group: '제휴' },
+        ];
+
+        // Caption data
+        const CAPTIONS = {
+            '스테이지 엑스 성수 17(@LCDC)': '스테이지 엑스 성수 17(@LCDC)에 방문했습니다.\n\n이 공간에서 만날 수 있는 특별한 경험을 소개합니다.',
+            '스테이지 엑스 성수 52': '스테이지 엑스 성수 52의 새로운 전시가 열렸습니다.',
+            '스테이지 엑스 성수 차봇': '차봇 공간에서 특별한 체험을 준비했습니다.',
+            '스테이지 엑스 T Factory 성수': 'T Factory 성수에서 만나보세요.',
+            '스테이지 엑스 성수 403': '성수 403 공간의 최신 소식입니다.',
+            '스테이지 엑스 익선 A동': '익선 A동의 새로운 프로젝트를 소개합니다.',
+            '스테이지 엑스 도쿄 밀 갤러리': '도쿄 밀 갤러리의 전시를 확인해보세요.',
+            '스테이지 엑스 도쿄 더쿠': '도쿄 더쿠에서의 특별한 경험입니다.',
+            '[제휴] 성수 틸 테이블': '제휴 공간 성수 틸 테이블입니다.',
+            '[제휴] 성수 카펜크레': '제휴 공간 카펜크레에서의 협력 프로젝트입니다.',
+            '[제휴] 압구정 요새 도산': '제휴 공간 압구정 요새 도산입니다.',
+            '[제휴] 성수 더 가베': '제휴 공간 더 가베의 새로운 기획입니다.',
+            '[제휴] 무신사 스페이스 서울숲': '제휴 공간 무신사 스페이스에서의 특별 전시.',
+            '[제휴] 코엑스': '코엑스에서 열린 특별한 행사입니다.',
+            '[제휴] 세종문화회관': '세종문화회관에서의 협력 프로젝트.',
+            '[제휴] 홍대 스퀘어': '홍대 스퀘어의 새로운 팝업입니다.',
+        };
+
+        // Global state
+        let logoImage = null;
+        let thumbnailImage = null;
+        let innerImages = [];
+        let currentInnerIndex = -1;
+
+        let thumbnailState = {
+            imageX: 0,
+            imageY: 0,
+            imageScale: 1,
+        };
+
+        let innerStates = [];
+
+        // Tab switching
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tab = btn.dataset.tab;
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(`tab-${tab}`).classList.add('active');
+
+                if (tab === 'thumbnail') {
+                    renderThumbnail();
+                } else if (tab === 'inner') {
+                    renderInner();
+                }
+            });
+        });
+
+        // Logo upload
+        document.getElementById('logoUploadArea').addEventListener('click', () => {
+            document.getElementById('logoInput').click();
+        });
+
+        document.getElementById('logoInput').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        logoImage = img;
+                        document.getElementById('logoPreview').src = event.target.result;
+                        document.getElementById('logoPreview').style.display = 'block';
+                        document.getElementById('logoPlaceholder').textContent = file.name;
+                        document.getElementById('logoUploadArea').classList.add('loaded');
+                        renderThumbnail();
+                    };
+                    img.src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Initialize space selects
+        function initializeSpaceSelects() {
+            [document.getElementById('spaceSelect'), document.getElementById('captionSpaceSelect')].forEach(select => {
+                const groups = {};
+                SPACES.forEach(space => {
+                    const option = document.createElement('option');
+                    option.value = space.name;
+                    option.textContent = space.name;
+                    option.dataset.bg = space.bg;
+                    option.dataset.text = space.text;
+                    select.appendChild(option);
+                });
+            });
+        }
+
+        initializeSpaceSelects();
+
+        // Thumbnail tab handlers
+        document.getElementById('thumbnailImage').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        thumbnailImage = img;
+                        renderThumbnail();
+                    };
+                    img.src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        document.getElementById('thumbImageX').addEventListener('input', (e) => {
+            thumbnailState.imageX = parseInt(e.target.value);
+            document.getElementById('thumbImageXValue').textContent = e.target.value + 'px';
+            renderThumbnail();
+        });
+
+        document.getElementById('thumbImageY').addEventListener('input', (e) => {
+            thumbnailState.imageY = parseInt(e.target.value);
+            document.getElementById('thumbImageYValue').textContent = e.target.value + 'px';
+            renderThumbnail();
+        });
+
+        document.getElementById('thumbImageScale').addEventListener('input', (e) => {
+            thumbnailState.imageScale = parseFloat(e.target.value);
+            document.getElementById('thumbImageScaleValue').textContent = Math.round(e.target.value * 100) + '%';
+            renderThumbnail();
+        });
+
+        document.getElementById('spaceSelect').addEventListener('change', (e) => {
+            renderThumbnail();
+        });
+
+        document.getElementById('mainText').addEventListener('input', (e) => {
+            renderThumbnail();
+            checkMainTextOverflow();
+        });
+
+        function checkMainTextOverflow() {
+            const text = document.getElementById('mainText').value;
+            const warning = document.getElementById('mainTextWarning');
+            if (text.length > 80) {
+                warning.textContent = '⚠️ 텍스트가 길 수 있습니다. (현재: ' + text.length + '자)';
+            } else {
+                warning.textContent = '';
+            }
+        }
+
+        function resetThumbnailImage() {
+            thumbnailState.imageX = 0;
+            thumbnailState.imageY = 0;
+            thumbnailState.imageScale = 1;
+            document.getElementById('thumbImageX').value = 0;
+            document.getElementById('thumbImageY').value = 0;
+            document.getElementById('thumbImageScale').value = 1;
+            document.getElementById('thumbImageXValue').textContent = '0px';
+            document.getElementById('thumbImageYValue').textContent = '0px';
+            document.getElementById('thumbImageScaleValue').textContent = '100%';
+            renderThumbnail();
+        }
+
+        function renderThumbnail() {
+            const canvas = document.getElementById('thumbnailCanvas');
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw background image
+            if (thumbnailImage) {
+                const scaledWidth = thumbnailImage.width * thumbnailState.imageScale;
+                const scaledHeight = thumbnailImage.height * thumbnailState.imageScale;
+                const x = (canvas.width - scaledWidth) / 2 + thumbnailState.imageX;
+                const y = (canvas.height - scaledHeight) / 2 + thumbnailState.imageY;
+                ctx.drawImage(thumbnailImage, x, y, scaledWidth, scaledHeight);
+            } else {
+                ctx.fillStyle = '#e0e0e0';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            }
+
+            // Draw gradient
+            const gradient = ctx.createLinearGradient(0, canvas.height * 0.53, 0, canvas.height);
+            gradient.addColorStop(0, 'rgba(0, 0, 0, 0)');
+            gradient.addColorStop(0.4, 'rgba(0, 0, 0, 0.33)');
+            gradient.addColorStop(1, 'rgba(0, 0, 0, 0.84)');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Get selected space
+            const spaceSelect = document.getElementById('spaceSelect');
+            const selectedOption = spaceSelect.options[spaceSelect.selectedIndex];
+            const subBg = selectedOption.dataset.bg || '#000000';
+            const subText = selectedOption.dataset.text || '#FFFFFF';
+            const subName = spaceSelect.value;
+
+            // Draw sub text background
+            if (subName) {
+                ctx.fillStyle = subBg;
+                const subBoxX = 75;
+                const subBoxY = 943;
+                const subBoxHeight = 83;
+                const subBoxPadding = 21;
+                const subBoxWidth = 250; // Estimate, will adjust based on text
+                ctx.fillRect(subBoxX, subBoxY, subBoxWidth, subBoxHeight);
+
+                // Draw sub text
+                ctx.fillStyle = subText;
+                ctx.font = '600 50px Pretendard';
+                ctx.textBaseline = 'top';
+                ctx.fillText(subName, 96, 952);
+            }
+
+            // Draw main text
+            const mainText = document.getElementById('mainText').value;
+            if (mainText) {
+                ctx.fillStyle = '#FFFFFF';
+                ctx.font = '800 100px Pretendard';
+                ctx.textBaseline = 'bottom';
+
+                // Add shadow
+                ctx.shadowColor = 'rgba(0, 0, 0, 0.17)';
+                ctx.shadowBlur = 17.6;
+                ctx.shadowOffsetX = 0;
+                ctx.shadowOffsetY = 0;
+
+                ctx.fillText(mainText, 73, 1042 + 129);
+
+                ctx.shadowColor = 'transparent';
+            }
+
+            // Draw logo
+            if (logoImage) {
+                ctx.drawImage(logoImage, 439, 33, 201, 142);
+            }
+        }
+
+        // Inner pages tab handlers
+        document.getElementById('innerImages').addEventListener('change', (e) => {
+            const files = Array.from(e.target.files);
+            let loadedCount = 0;
+
+            files.forEach((file, index) => {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        innerImages.push({
+                            image: img,
+                            fileName: file.name
+                        });
+                        innerStates.push({
+                            imageX: 0,
+                            imageY: 0,
+                            imageScale: 1
+                        });
+                        loadedCount++;
+
+                        if (loadedCount === files.length) {
+                            updateInnerImageList();
+                            selectInnerImage(innerImages.length - 1);
+                        }
+                    };
+                    img.src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            });
+        });
+
+        function updateInnerImageList() {
+            const list = document.getElementById('innerImageList');
+            if (innerImages.length === 0) {
+                list.innerHTML = '<div style="color: #999; text-align: center; padding: 20px;">이미지가 없습니다.</div>';
+                document.getElementById('innerEditGroup').style.display = 'none';
+                return;
+            }
+
+            list.innerHTML = '';
+            innerImages.forEach((img, index) => {
+                const item = document.createElement('div');
+                item.className = 'image-item' + (index === currentInnerIndex ? ' active' : '');
+                item.innerHTML = `
+                    <div onclick="selectInnerImage(${index})" style="flex: 1; cursor: pointer;">
+                        내지 ${index + 1}: ${img.fileName}
+                    </div>
+                    <button onclick="deleteInnerImage(${index})">삭제</button>
+                `;
+                list.appendChild(item);
+            });
+        }
+
+        function selectInnerImage(index) {
+            currentInnerIndex = index;
+            document.getElementById('innerEditGroup').style.display = 'block';
+            document.getElementById('currentInnerIndex').textContent = index + 1;
+
+            const state = innerStates[index];
+            document.getElementById('innerImageX').value = state.imageX;
+            document.getElementById('innerImageY').value = state.imageY;
+            document.getElementById('innerImageScale').value = state.imageScale;
+            document.getElementById('innerImageXValue').textContent = state.imageX + 'px';
+            document.getElementById('innerImageYValue').textContent = state.imageY + 'px';
+            document.getElementById('innerImageScaleValue').textContent = Math.round(state.imageScale * 100) + '%';
+
+            updateInnerImageList();
+            renderInner();
+        }
+
+        function deleteInnerImage(index) {
+            innerImages.splice(index, 1);
+            innerStates.splice(index, 1);
+            if (currentInnerIndex >= innerImages.length) {
+                currentInnerIndex = innerImages.length - 1;
+            }
+            updateInnerImageList();
+            if (innerImages.length > 0) {
+                selectInnerImage(Math.max(0, currentInnerIndex));
+            } else {
+                renderInner();
+            }
+        }
+
+        function resetInnerImage() {
+            if (currentInnerIndex >= 0) {
+                innerStates[currentInnerIndex].imageX = 0;
+                innerStates[currentInnerIndex].imageY = 0;
+                innerStates[currentInnerIndex].imageScale = 1;
+                selectInnerImage(currentInnerIndex);
+            }
+        }
+
+        document.getElementById('innerImageX').addEventListener('input', (e) => {
+            if (currentInnerIndex >= 0) {
+                innerStates[currentInnerIndex].imageX = parseInt(e.target.value);
+                document.getElementById('innerImageXValue').textContent = e.target.value + 'px';
+                renderInner();
+            }
+        });
+
+        document.getElementById('innerImageY').addEventListener('input', (e) => {
+            if (currentInnerIndex >= 0) {
+                innerStates[currentInnerIndex].imageY = parseInt(e.target.value);
+                document.getElementById('innerImageYValue').textContent = e.target.value + 'px';
+                renderInner();
+            }
+        });
+
+        document.getElementById('innerImageScale').addEventListener('input', (e) => {
+            if (currentInnerIndex >= 0) {
+                innerStates[currentInnerIndex].imageScale = parseFloat(e.target.value);
+                document.getElementById('innerImageScaleValue').textContent = Math.round(e.target.value * 100) + '%';
+                renderInner();
+            }
+        });
+
+        function renderInner() {
+            const canvas = document.getElementById('innerCanvas');
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            if (currentInnerIndex < 0 || !innerImages[currentInnerIndex]) {
+                ctx.fillStyle = '#e0e0e0';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = '#999';
+                ctx.font = '16px Pretendard';
+                ctx.textAlign = 'center';
+                ctx.fillText('이미지를 선택해주세요', canvas.width / 2, canvas.height / 2);
+                return;
+            }
+
+            const state = innerStates[currentInnerIndex];
+            const img = innerImages[currentInnerIndex].image;
+
+            // Draw background image
+            const scaledWidth = img.width * state.imageScale;
+            const scaledHeight = img.height * state.imageScale;
+            const x = (canvas.width - scaledWidth) / 2 + state.imageX;
+            const y = (canvas.height - scaledHeight) / 2 + state.imageY;
+            ctx.drawImage(img, x, y, scaledWidth, scaledHeight);
+
+            // Draw logo
+            if (logoImage) {
+                ctx.drawImage(logoImage, 439, 33, 201, 142);
+            }
+        }
+
+        // Caption tab handlers
+        document.getElementById('captionSpaceSelect').addEventListener('change', (e) => {
+            const spaceName = e.target.value;
+            const baseCaptionGroup = document.getElementById('baseCaptionGroup');
+            const fullCaptionGroup = document.getElementById('fullCaptionGroup');
+
+            if (spaceName && CAPTIONS[spaceName]) {
+                document.getElementById('baseCaptionDisplay').textContent = CAPTIONS[spaceName];
+                baseCaptionGroup.style.display = 'block';
+                updateFullCaption();
+                fullCaptionGroup.style.display = 'block';
+            } else {
+                baseCaptionGroup.style.display = 'none';
+                fullCaptionGroup.style.display = 'none';
+                document.getElementById('additionalCaption').value = '';
+            }
+        });
+
+        document.getElementById('additionalCaption').addEventListener('input', () => {
+            updateFullCaption();
+        });
+
+        function updateFullCaption() {
+            const spaceName = document.getElementById('captionSpaceSelect').value;
+            const baseCaption = CAPTIONS[spaceName] || '';
+            const additionalCaption = document.getElementById('additionalCaption').value;
+
+            let fullCaption = baseCaption;
+            if (baseCaption && additionalCaption) {
+                fullCaption += '\n\n' + additionalCaption;
+            } else if (additionalCaption) {
+                fullCaption = additionalCaption;
+            }
+
+            document.getElementById('fullCaptionDisplay').textContent = fullCaption;
+        }
+
+        function copyCaption() {
+            const text = document.getElementById('fullCaptionDisplay').textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                alert('클립보드에 복사되었습니다!');
+            }).catch(() => {
+                alert('복사에 실패했습니다.');
+            });
+        }
+
+        // Download functions
+        async function downloadThumbnail() {
+            if (!logoImage) {
+                alert('로고를 먼저 업로드해주세요!');
+                return;
+            }
+
+            const canvas = document.getElementById('thumbnailCanvas');
+            canvas.toBlob((blob) => {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = '01_thumbnail.png';
+                a.click();
+                URL.revokeObjectURL(url);
+            }, 'image/png');
+        }
+
+        async function downloadAllInner() {
+            if (innerImages.length === 0) {
+                alert('내지를 먼저 추가해주세요!');
+                return;
+            }
+
+            if (!logoImage) {
+                alert('로고를 먼저 업로드해주세요!');
+                return;
+            }
+
+            // Download individual images
+            for (let i = 0; i < innerImages.length; i++) {
+                const canvas = document.createElement('canvas');
+                canvas.width = 1080;
+                canvas.height = 1350;
+                const ctx = canvas.getContext('2d');
+
+                const state = innerStates[i];
+                const img = innerImages[i].image;
+                const scaledWidth = img.width * state.imageScale;
+                const scaledHeight = img.height * state.imageScale;
+                const x = (canvas.width - scaledWidth) / 2 + state.imageX;
+                const y = (canvas.height - scaledHeight) / 2 + state.imageY;
+
+                ctx.drawImage(img, x, y, scaledWidth, scaledHeight);
+                ctx.drawImage(logoImage, 439, 33, 201, 142);
+
+                await new Promise(resolve => {
+                    canvas.toBlob((blob) => {
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = `0${i + 2}_inner_${i + 1}.png`;
+                        a.click();
+                        URL.revokeObjectURL(url);
+                        resolve();
+                    }, 'image/png');
+                });
+
+                // Add delay to prevent browser blocking
+                await new Promise(resolve => setTimeout(resolve, 500));
+            }
+
+            alert('모든 내지가 다운로드되었습니다!');
+        }
+
+        // Initial render
+        renderThumbnail();
+    </script>
+</body>
+</html>
