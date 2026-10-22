@@ -1,0 +1,12 @@
+{
+  "name": "sweetspot-thumbnail-plugin",
+  "version": "1.0.0",
+  "description": "Sweetspot Instagram 썸네일 생성 피그마 플러그인",
+  "scripts": {
+    "build": "tsc plugin.ts --target es6 --lib es6 --outDir ."
+  },
+  "devDependencies": {
+    "@figma/plugin-typings": "latest",
+    "typescript": "latest"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "Sweetspot Thumbnail Generator",
+  "id": "1234567890123456",
+  "api": "1.0.0",
+  "main": "plugin.js",
+  "ui": "ui.html",
+  "editorType": ["design"],
+  "permissions": [],
+  "networkAccess": {
+    "allowedDomains": [
+      "fonts.googleapis.com",
+      "fonts.gstatic.com"
+    ]
+  }
+}
